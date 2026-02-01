@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Rubrics - Project Evaluation System{% endblock %}
+
+{% block content %}
+<h2>Rubrics</h2>
+<a href="{% url 'rubrics:rubric_import' %}" class="btn btn-primary mb-3">Import New Rubric</a>
+{% if rubrics %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Max Total Score</th>
+                    <th>Criteria Count</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rubric in rubrics %}
+                <tr>
+                    <td>{{ rubric.name }}</td>
+                    <td>{{ rubric.max_total_score|default:"N/A" }}</td>
+                    <td>{{ rubric.criteria.count }}</td>
+                    <td>
+                        <a href="{% url 'rubrics:rubric_detail' rubric.id %}" class="btn btn-sm btn-primary">View</a>
+                        <a href="{% url 'rubrics:rubric_delete' rubric.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p>No rubrics available. <a href="{% url 'rubrics:rubric_import' %}">Import a rubric</a> to get started.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}My Evaluations - Project Evaluation System{% endblock %}
+
+{% block content %}
+<h2>My Evaluations</h2>
+{% if evaluations %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Status</th>
+                    <th>Total Score</th>
+                    <th>Submitted At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for evaluation in evaluations %}
+                <tr>
+                    <td><a href="{% url 'projects:project_detail' evaluation.project.id %}">{{ evaluation.project.title }}</a></td>
+                    <td>
+                        {% if evaluation.status == 'SUBMITTED' %}
+                            <span class="badge bg-success">{{ evaluation.get_status_display }}</span>
+                        {% else %}
+                            <span class="badge bg-warning">{{ evaluation.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ evaluation.total_score|default:"Not calculated" }}</td>
+                    <td>{{ evaluation.submitted_at|default:"Not submitted"|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        <a href="{% url 'evaluations:evaluation_detail' evaluation.id %}" class="btn btn-sm btn-primary">View</a>
+                        <a href="{% url 'evaluations:evaluation_create' evaluation.project.id %}" class="btn btn-sm btn-secondary">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p>No evaluations found.</p>
+    <a href="{% url 'projects:project_list' %}" class="btn btn-primary">View Projects</a>
+{% endif %}
+{% endblock %}

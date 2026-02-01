@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load evaluation_filters %}
+
+{% block title %}Projects - Project Evaluation System{% endblock %}
+
+{% block content %}
+<h2>Projects</h2>
+
+{% if user.is_admin %}
+<div class="alert alert-info mb-3">
+    <strong>Admin Quick Actions:</strong>
+    <a href="/admin/projects/project/add/" class="btn btn-sm btn-primary ms-2">Create New Project</a>
+    <a href="{% url 'rubrics:rubric_import' %}" class="btn btn-sm btn-secondary ms-2">Import Rubric</a>
+    <a href="{% url 'accounts:dashboard' %}" class="btn btn-sm btn-info ms-2">View Dashboard</a>
+    <a href="{% url 'projects:export_all_students_grades' %}" class="btn btn-sm btn-success ms-2">📥 Download All Students Grades</a>
+</div>
+{% endif %}
+
+{% if projects %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Supervisor</th>
+                    <th>Rubric</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                <tr>
+                    <td>{{ project.title }}</td>
+                    <td>
+                        {% if project.supervisor %}
+                            {{ project.supervisor.get_full_name|default:project.supervisor.username }}
+                        {% else %}
+                            Not assigned
+                        {% endif %}
+                    </td>
+                    <td>{{ project.rubric.name|default:"No Rubric" }}</td>
+                    <td><span class="badge bg-info">{{ project.get_status_display }}</span></td>
+                    <td>
+                        <a href="{% url 'projects:project_detail' project.id %}" class="btn btn-sm btn-primary">View</a>
+                        {% if user.is_faculty %}
+                            {% with assignment_role=project_assignments|get_item:project.id %}
+                                {% if assignment_role == 'JUDGE' %}
+                                    <a href="{% url 'evaluations:evaluation_create' project.id %}" class="btn btn-sm btn-success">Evaluate</a>
+                                {% endif %}
+                            {% endwith %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        <h5>No Projects Found</h5>
+        {% if user.is_admin %}
+            <p>You haven't created any projects yet. To get started:</p>
+            <ol>
+                <li><strong>Import a Rubric:</strong> <a href="{% url 'rubrics:rubric_import' %}">Click here to import a rubric from Excel</a></li>
+                <li><strong>Create Users:</strong> Go to <a href="/admin/accounts/user/add/">Admin Panel → Users</a> to create student and judge accounts</li>
+                <li><strong>Create a Project:</strong> <a href="/admin/projects/project/add/">Click here to create your first project</a></li>
+                <li><strong>Create a Team:</strong> After creating a project, create a team and assign students to it</li>
+            </ol>
+            <a href="/admin/projects/project/add/" class="btn btn-primary">Create Your First Project</a>
+        {% else %}
+            <p>No projects are available for you to view at this time. Please contact an administrator.</p>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

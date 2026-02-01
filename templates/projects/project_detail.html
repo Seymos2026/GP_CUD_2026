@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} - Project Evaluation System{% endblock %}
+
+{% block content %}
+<h2>{{ project.title }}</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Project Information</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Description:</strong> {{ project.description|default:"No description provided" }}</p>
+                <p><strong>Status:</strong> <span class="badge bg-info">{{ project.get_status_display }}</span></p>
+                <p><strong>Supervisor:</strong> 
+                    {% if project.supervisor %}
+                        {{ project.supervisor.get_full_name|default:project.supervisor.username }}
+                    {% else %}
+                        <span class="text-warning">No supervisor assigned</span>
+                    {% endif %}
+                </p>
+                <p><strong>Rubric:</strong> 
+                    {% if project.rubric %}
+                        <a href="{% url 'rubrics:rubric_detail' project.rubric.id %}">{{ project.rubric.name }}</a>
+                    {% else %}
+                        <span class="text-warning">No rubric assigned</span>
+                    {% endif %}
+                </p>
+                {% if team %}
+                    <p><strong>Team:</strong> {{ team.team_name|default:"No team name" }}</p>
+                    <p><strong>Team Members:</strong>
+                        {% for student in team.students.all %}
+                            {{ student.user.get_full_name|default:student.user.username }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            No members assigned
+                        {% endfor %}
+                    </p>
+                {% else %}
+                    <p><strong>Team:</strong> <span class="text-warning">No team assigned</span></p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if user.is_faculty and is_judge and not judge_evaluation and project.rubric %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5>Evaluation</h5>
+                    <p>You haven't evaluated this project yet.</p>
+                    <a href="{% url 'evaluations:evaluation_create' project.id %}" class="btn btn-primary">Evaluate Project</a>
+                </div>
+            </div>
+        {% elif user.is_faculty and is_judge and judge_evaluation %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5>Your Evaluation</h5>
+                    <p><strong>Status:</strong> 
+                        {% if judge_evaluation.status == 'SUBMITTED' %}
+                            <span class="badge bg-success">{{ judge_evaluation.get_status_display }}</span>
+                        {% else %}
+                            <span class="badge bg-warning">{{ judge_evaluation.get_status_display }}</span>
+                        {% endif %}
+                    </p>
+                    <p><strong>Total Score:</strong> {{ judge_evaluation.total_score|default:"Not calculated" }}</p>
+                    <a href="{% url 'evaluations:evaluation_detail' judge_evaluation.id %}" class="btn btn-primary">View Your Evaluation</a>
+                    <a href="{% url 'evaluations:evaluation_create' project.id %}" class="btn btn-secondary">Edit Evaluation</a>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if evaluation_summary and project.rubric %}
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Evaluation Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Total Score:</strong> {{ evaluation_summary.total_score|floatformat:2 }} / {{ evaluation_summary.max_total_score|floatformat:2 }}</p>
+                        <p><strong>Percentage:</strong> {{ evaluation_summary.percentage|floatformat:2 }}%</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Number of Evaluations:</strong> {{ evaluation_summary.evaluation_count }}</p>
+                        <p><strong>Draft Evaluations:</strong> {{ evaluation_summary.draft_count }}</p>
+                    </div>
+                </div>
+
+                {% if evaluation_summary.criterion_scores %}
+                <h6>Criterion Scores:</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Criterion</th>
+                                <th>Average</th>
+                                <th>Weight</th>
+                                <th>Weighted Score</th>
+                                <th>Max Score</th>
+                                <th>Judges</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cs in evaluation_summary.criterion_scores %}
+                            <tr>
+                                <td>{{ cs.criterion.name }}</td>
+                                <td>{{ cs.average|floatformat:2 }}</td>
+                                <td>{{ cs.weight }}</td>
+                                <td>{{ cs.weighted_score|floatformat:2 }}</td>
+                                <td>{{ cs.max_score }}</td>
+                                <td>{{ cs.judge_count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+
+                {% if evaluation_summary.judge_evaluations %}
+                <h6 class="mt-3">Judge Evaluations:</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Judge</th>
+                                <th>Total Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for je in evaluation_summary.judge_evaluations %}
+                            <tr>
+                                <td>{{ je.judge.user.get_full_name|default:je.judge.user.username }}</td>
+                                <td>{{ je.total_score|floatformat:2 }}</td>
+                                <td>
+                                    {% if je.evaluation.status == 'SUBMITTED' %}
+                                        <span class="badge bg-success">{{ je.evaluation.get_status_display }}</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">{{ je.evaluation.get_status_display }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if user.is_admin %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <a href="/admin/projects/project/{{ project.id }}/change/" class="btn btn-primary">Edit Project (Admin)</a>
+                <a href="{% url 'reports:project_report' project.id %}" class="btn btn-info">View Report</a>
+                <a href="{% url 'reports:export_excel' project.id %}" class="btn btn-success">Export to Excel</a>
+                <a href="{% url 'reports:export_pdf' project.id %}" class="btn btn-danger">Export to PDF</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<a href="{% url 'projects:project_list' %}" class="btn btn-secondary">Back to Projects</a>
+{% endblock %}

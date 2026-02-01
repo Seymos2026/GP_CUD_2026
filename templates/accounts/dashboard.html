@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - Project Evaluation System{% endblock %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-primary">{{ total_projects }}</h3>
+                <p class="card-text">Projects</p>
+                <a href="/admin/projects/project/" class="btn btn-sm btn-primary">Manage</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-success">{{ total_teams }}</h3>
+                <p class="card-text">Teams</p>
+                <a href="/admin/projects/team/" class="btn btn-sm btn-success">Manage</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-info">{{ total_students }}</h3>
+                <p class="card-text">Students</p>
+                <a href="/admin/accounts/student/" class="btn btn-sm btn-info">Manage</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-warning">{{ total_judges }}</h3>
+                <p class="card-text">Faculty</p>
+                <a href="/admin/accounts/faculty/" class="btn btn-sm btn-warning">Manage</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-secondary">{{ total_rubrics }}</h3>
+                <p class="card-text">Rubrics</p>
+                <a href="{% url 'rubrics:rubric_list' %}" class="btn btn-sm btn-secondary">View Rubrics</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-danger">{{ total_evaluations }}</h3>
+                <p class="card-text">Total Evaluations</p>
+                <small class="text-muted">{{ submitted_evaluations }} submitted</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <a href="/admin/" class="btn btn-primary">Django Admin Panel</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Project Management</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="/admin/projects/project/add/">➕ Create New Project</a></li>
+                            <li><a href="{% url 'projects:project_list' %}">📋 View All Projects</a></li>
+                            <li><a href="/admin/projects/team/add/">👥 Create New Team</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>User & Rubric Management</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="/admin/accounts/user/add/">👤 Create New User</a></li>
+                            <li><a href="{% url 'rubrics:rubric_import' %}">📊 Import Rubric from Excel</a></li>
+                            <li><a href="/admin/accounts/student/add/">🎓 Create Student Profile</a></li>
+                            <li><a href="/admin/accounts/faculty/add/">⚖️ Create Faculty Profile</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if recent_projects %}
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Recent Projects</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Rubric</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for project in recent_projects %}
+                            <tr>
+                                <td>{{ project.title }}</td>
+                                <td><span class="badge bg-info">{{ project.get_status_display }}</span></td>
+                                <td>{{ project.rubric.name|default:"No Rubric" }}</td>
+                                <td>
+                                    <a href="{% url 'projects:project_detail' project.id %}" class="btn btn-sm btn-primary">View</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info mt-4">
+    <h5>Getting Started</h5>
+    <p>No projects have been created yet. Here's how to get started:</p>
+    <ol>
+        <li><strong>Import a Rubric:</strong> <a href="{% url 'rubrics:rubric_import' %}">Import Rubric from Excel</a></li>
+        <li><strong>Create Users:</strong> Go to <a href="/admin/accounts/user/add/">Admin Panel → Users</a> to create student and faculty accounts</li>
+        <li><strong>Create a Project:</strong> Go to <a href="/admin/projects/project/add/">Admin Panel → Projects</a> to create your first project</li>
+        <li><strong>Create a Team:</strong> Create a team and assign students to it</li>
+    </ol>
+</div>
+{% endif %}
+{% endblock %}

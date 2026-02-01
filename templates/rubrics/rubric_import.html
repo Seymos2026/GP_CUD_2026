@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Import Rubric - Project Evaluation System{% endblock %}
+
+{% block content %}
+<h2>Import Rubric from Excel</h2>
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="alert alert-info">
+            <h5>📥 Download Template</h5>
+            <p>Before importing, download the Excel template to see the required format.</p>
+            <a href="{% url 'rubrics:download_template' %}" class="btn btn-success">
+                📥 Download Rubric Template
+            </a>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="rubric_name" class="form-label">Rubric Name *</label>
+                <input type="text" class="form-control" id="rubric_name" name="rubric_name" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="excel_file" class="form-label">Excel File *</label>
+                <input type="file" class="form-control" id="excel_file" name="excel_file" accept=".xlsx,.xls" required>
+                <small class="form-text text-muted">
+                    <strong>Required columns:</strong> <code>Criteria No</code>, <code>Evaluation Criteria</code>, 
+                    <code>Max Score</code>, <code>Section Title</code>.<br>
+                    <strong>Optional columns:</strong> <code>Weight</code> (defaults to 1.0).<br>
+                    <strong>Validation:</strong> Section totals must match the points specified in Section Title 
+                    (e.g., "1. Midterm Presentation - 10.0 points" must total 10.0). 
+                    All sections combined must total exactly 100.0 points.
+                </small>
+            </div>
+            <button type="submit" class="btn btn-primary">Import Rubric</button>
+            <a href="{% url 'rubrics:rubric_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

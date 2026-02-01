@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load evaluation_filters %}
+
+{% block title %}Evaluate Project - Project Evaluation System{% endblock %}
+
+{% block content %}
+<h2>Evaluate: {{ project.title }}</h2>
+<p><strong>Status:</strong> 
+    {% if evaluation.status == 'DRAFT' %}
+        <span class="badge bg-warning">{{ evaluation.get_status_display }}</span>
+    {% else %}
+        <span class="badge bg-success">{{ evaluation.get_status_display }}</span>
+    {% endif %}
+</p>
+
+{% if not students %}
+<div class="alert alert-warning">
+    <strong>No students assigned to this project's team.</strong> Please assign students to the team before evaluating.
+</div>
+{% else %}
+<form method="post">
+    {% csrf_token %}
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>Rubric: {{ rubric.name }}</h5>
+            <p class="mb-0"><small>Score each student individually for each criterion</small></p>
+        </div>
+        <div class="card-body">
+            {% for section in sections_data %}
+            <div class="mb-4 border rounded p-3" style="background-color: #f8f9fa;">
+                <!-- Section Header -->
+                <div class="mb-3 pb-2 border-bottom">
+                    <h5 class="mb-1">
+                        {% if forloop.counter %}{{ forloop.counter }}. {% endif %}{{ section.title }}
+                    </h5>
+                    <p class="mb-0 text-muted">
+                        <strong>Section Total (Max):</strong> {{ section.max_total|floatformat:2 }} points
+                    </p>
+                </div>
+                
+                <!-- Sub-criteria within this section -->
+                {% for criterion in section.criteria %}
+                <div class="mb-3 {% if not forloop.last %}border-bottom pb-3{% endif %}">
+                    <h6 class="text-primary">{{ criterion.name }}</h6>
+                    {% if criterion.description %}
+                        <p class="text-muted small mb-2">{{ criterion.description }}</p>
+                    {% endif %}
+                    <p class="small mb-2">
+                        <strong>Max Score:</strong> {{ criterion.max_score }} | 
+                        <strong>Weight:</strong> {{ criterion.weight }}
+                    </p>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th style="width: 150px;">Score (0-{{ criterion.max_score }})</th>
+                                    <th>Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student_data in student_scores_list %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ student_data.student.user.get_full_name|default:student_data.student.user.username }}</strong>
+                                        <br><small class="text-muted">ID: {{ student_data.student.student_id }}</small>
+                                    </td>
+                                    <td>
+                                        {% with score=student_data.scores|get_item:criterion.id %}
+                                        <input type="number" 
+                                               class="form-control form-control-sm" 
+                                               id="score_{{ criterion.id }}_{{ student_data.student.id }}" 
+                                               name="score_{{ criterion.id }}_{{ student_data.student.id }}"
+                                               min="0" 
+                                               max="{{ criterion.max_score }}" 
+                                               step="0.01"
+                                               value="{% if score %}{{ score.score }}{% endif %}"
+                                               required>
+                                        {% endwith %}
+                                    </td>
+                                    <td>
+                                        {% with score=student_data.scores|get_item:criterion.id %}
+                                        <textarea class="form-control form-control-sm" 
+                                                  id="comments_{{ criterion.id }}_{{ student_data.student.id }}" 
+                                                  name="comments_{{ criterion.id }}_{{ student_data.student.id }}" 
+                                                  rows="2">{% if score %}{{ score.comments|default:'' }}{% endif %}</textarea>
+                                        {% endwith %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="general_comments" class="form-label">General Comments (for the entire project/team)</label>
+        <textarea class="form-control" id="general_comments" name="general_comments" rows="4">{{ evaluation.comments|default:'' }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="judge_signature" class="form-label">Judge Signature/Name</label>
+        <input type="text" class="form-control" id="judge_signature" name="judge_signature" 
+               value="{{ evaluation.judge_signature|default:evaluation.faculty.user.get_full_name|default:user.username }}" 
+               placeholder="Enter your name for signature">
+    </div>
+
+    <button type="submit" name="action" value="save" class="btn btn-warning">Save as Draft</button>
+    <button type="submit" name="action" value="submit" class="btn btn-success">Submit Evaluation</button>
+    <a href="{% url 'projects:project_detail' project.id %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endif %}
+{% endblock %}

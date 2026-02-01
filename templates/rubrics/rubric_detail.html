@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ rubric.name }} - Project Evaluation System{% endblock %}
+
+{% block content %}
+<h2>{{ rubric.name }}</h2>
+<p>{{ rubric.description|default:"No description" }}</p>
+<p><strong>Max Total Score:</strong> {{ rubric.max_total_score|default:"N/A" }}</p>
+
+<h3>Rubric Criteria by Section</h3>
+{% if sections %}
+    {% for section in sections %}
+    <div class="card mb-3">
+        <div class="card-header {% if 'Individual' in section.title %}bg-success{% else %}bg-primary{% endif %} text-white">
+            <h5 class="mb-0">
+                {{ section.title }} - {{ section.total|floatformat:1 }} points
+            </h5>
+            <small class="text-white-50"><em>Edit section title in admin: Criterion → section_title field</em></small>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Evaluation Criteria</th>
+                            <th>Max Score</th>
+                            <th>Weight</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for criterion in section.criteria %}
+                        <tr>
+                            <td>{{ criterion.name }}</td>
+                            <td>{{ criterion.description|default:"-" }}</td>
+                            <td>{{ criterion.max_score }}</td>
+                            <td>{{ criterion.weight }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="table-info">
+                            <td colspan="2"><strong>Section Total</strong></td>
+                            <td><strong>{{ section.total|floatformat:1 }}</strong></td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No criteria defined for this rubric.</p>
+{% endif %}
+
+<a href="{% url 'rubrics:rubric_list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock %}
