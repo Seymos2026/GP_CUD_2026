@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Send Reminder - {{ block.super }}{% endblock %}
+
+{% block content %}
+<h2>Send Reminder Email</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Project: {{ project.title }}</h5>
+        <p class="mb-0"><strong>Judge:</strong> {{ faculty.user.get_full_name|default:faculty.user.username }}</p>
+        <p class="mb-0"><strong>Email:</strong> {{ recipient_email }}</p>
+    </div>
+    <div class="card-body">
+        <div class="mb-4">
+            <h6>Email Template Preview:</h6>
+            <div class="border rounded p-3 bg-light">
+                <p><strong>To:</strong> {{ recipient_email }}</p>
+                <p><strong>Subject:</strong> {{ default_subject }}</p>
+                <hr>
+                <pre style="white-space: pre-wrap; font-family: inherit;">{{ default_message }}</pre>
+            </div>
+        </div>
+        
+        <div class="alert alert-info">
+            <strong>Instructions:</strong> Click the button below to open your default email client (Mail, Outlook, etc.) 
+            with this email pre-filled. You can edit the message if needed, then click Send in your email client.
+        </div>
+        
+        {% if reminder_sent %}
+        <div class="alert alert-success mb-3">
+            <strong>✅ Email Reminder Sent!</strong> 
+            <p class="mb-0">Reminder was sent on {{ reminder_sent|date:"M d, Y H:i" }}. You can send it again if needed.</p>
+        </div>
+        {% endif %}
+        
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{{ mailto_link }}" 
+               onclick="setTimeout(function(){ window.location.href='{{ tracking_url }}'; }, 1000);" 
+               class="btn btn-primary btn-lg">
+                {% if reminder_sent %}📧↻ Send Reminder Again{% else %}📧 Open Email Client{% endif %}
+            </a>
+            <a href="{% url 'accounts:dashboard' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-warning mt-3">
+    <strong>Note:</strong> If your email client doesn't open automatically, you may need to:
+    <ul class="mb-0">
+        <li>Set a default email client in your system settings</li>
+        <li>Or copy the email details below and send manually</li>
+    </ul>
+</div>
+
+<div class="card mt-3">
+    <div class="card-header">
+        <h6>Manual Email Details (if needed)</h6>
+    </div>
+    <div class="card-body">
+        <p><strong>To:</strong> {{ recipient_email }}</p>
+        <p><strong>Subject:</strong> {{ default_subject }}</p>
+        <p><strong>Message:</strong></p>
+        <pre style="white-space: pre-wrap; background-color: #f8f9fa; padding: 15px; border-radius: 5px;">{{ default_message }}</pre>
+    </div>
+</div>
+{% endblock %}

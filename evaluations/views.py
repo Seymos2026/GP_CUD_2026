@@ -88,6 +88,26 @@ def evaluation_create(request, project_id):
         
         # Get all scores from form (per student per criterion)
         with transaction.atomic():
+            # Check which sections are visible (included) based on form data
+            # We'll check for missing scores only in visible sections
+            # For now, we'll validate all criteria, but we can enhance this to track hidden sections
+            
+            # Track which sections have at least one score (meaning they are visible/included)
+            sections_with_scores = set()
+            missing_scores = []
+            
+            # First pass: collect all scores and identify visible sections
+            for criterion in rubric.criteria.all():
+                for student in students:
+                    score_key = f'score_{criterion.id}_{student.id}'
+                    score_value = request.POST.get(score_key)
+                    
+                    if score_value and score_value.strip():
+                        # This section is visible (has at least one score)
+                        section_title = criterion.section_title or 'Other'
+                        sections_with_scores.add(section_title)
+            
+            # Second pass: validate and save scores
             for criterion in rubric.criteria.all():
                 for student in students:
                     score_key = f'score_{criterion.id}_{student.id}'
@@ -95,6 +115,17 @@ def evaluation_create(request, project_id):
                     
                     score_value = request.POST.get(score_key)
                     comments_value = request.POST.get(comments_key, '')
+                    
+                    section_title = criterion.section_title or 'Other'
+                    
+                    # If this section is visible (has scores) and we're submitting, all scores must be filled
+                    if action == 'submit' and section_title in sections_with_scores:
+                        if not score_value or score_value.strip() == '':
+                            missing_scores.append({
+                                'criterion': criterion.name,
+                                'student': student.user.get_full_name() or student.user.username,
+                                'section': section_title
+                            })
                     
                     if score_value:
                         try:
@@ -122,8 +153,25 @@ def evaluation_create(request, project_id):
                             messages.error(request, f'Invalid score format for {criterion.name} - {student.user.get_full_name() or student.user.username}.')
                             return redirect('evaluations:evaluation_create', project_id=project_id)
             
+            # Validate missing scores on submit
+            if action == 'submit' and missing_scores:
+                error_msg = 'You missed records! Please fill in all scores for visible components:\n\n'
+                for i, item in enumerate(missing_scores, 1):
+                    error_msg += f"{i}. {item['section']} - {item['criterion']} - {item['student']}\n"
+                error_msg += '\nPlease complete all scores before submitting.'
+                messages.error(request, error_msg)
+                return redirect('evaluations:evaluation_create', project_id=project_id)
+            
             # Update general comments and signature
-            evaluation.comments = request.POST.get('general_comments', '')
+            general_comments = request.POST.get('general_comments', '').strip()
+            
+            # Validate general comments if submitting
+            if action == 'submit':
+                if not general_comments:
+                    messages.error(request, 'General comments are required for submission. Please provide comments about the project.')
+                    return redirect('evaluations:evaluation_create', project_id=project_id)
+            
+            evaluation.comments = general_comments
             evaluation.judge_signature = request.POST.get('judge_signature', '') or evaluation.faculty.user.get_full_name() or evaluation.faculty.user.username
             
             # Update status

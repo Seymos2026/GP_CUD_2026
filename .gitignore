@@ -17,3 +17,7 @@ media/
 # IDE
 .vscode/
 .idea/
+
+# Backups
+*.bak
+staticfiles/

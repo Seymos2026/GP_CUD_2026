@@ -27,16 +27,33 @@
         </div>
         <div class="card-body">
             {% for section in sections_data %}
-            <div class="mb-4 border rounded p-3" style="background-color: #f8f9fa;">
+            <div class="mb-4 border rounded p-3 section-container" style="background-color: #f8f9fa;" data-section-index="{{ forloop.counter0 }}">
                 <!-- Section Header -->
                 <div class="mb-3 pb-2 border-bottom">
-                    <h5 class="mb-1">
-                        {% if forloop.counter %}{{ forloop.counter }}. {% endif %}{{ section.title }}
-                    </h5>
-                    <p class="mb-0 text-muted">
-                        <strong>Section Total (Max):</strong> {{ section.max_total|floatformat:2 }} points
-                    </p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-1">
+                                {% if forloop.counter %}{{ forloop.counter }}. {% endif %}{{ section.title }}
+                            </h5>
+                            <p class="mb-0 text-muted">
+                                <strong>Section Total (Max):</strong> {{ section.max_total|floatformat:2 }} points
+                            </p>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input section-toggle" 
+                                   type="checkbox" 
+                                   id="section_toggle_{{ forloop.counter0 }}" 
+                                   checked
+                                   data-section-index="{{ forloop.counter0 }}">
+                            <label class="form-check-label" for="section_toggle_{{ forloop.counter0 }}">
+                                <small>Include Now</small>
+                            </label>
+                        </div>
+                    </div>
                 </div>
+                
+                <!-- Section Content (hidden when unchecked) -->
+                <div class="section-content" data-section-index="{{ forloop.counter0 }}">
                 
                 <!-- Sub-criteria within this section -->
                 {% for criterion in section.criteria %}
@@ -69,9 +86,12 @@
                                     <td>
                                         {% with score=student_data.scores|get_item:criterion.id %}
                                         <input type="number" 
-                                               class="form-control form-control-sm" 
+                                               class="form-control form-control-sm score-input" 
                                                id="score_{{ criterion.id }}_{{ student_data.student.id }}" 
                                                name="score_{{ criterion.id }}_{{ student_data.student.id }}"
+                                               data-criterion-id="{{ criterion.id }}"
+                                               data-student-id="{{ student_data.student.id }}"
+                                               data-section-index="{{ forloop.parentloop.parentloop.counter0 }}"
                                                min="0" 
                                                max="{{ criterion.max_score }}" 
                                                step="0.01"
@@ -94,14 +114,16 @@
                     </div>
                 </div>
                 {% endfor %}
+                </div>
             </div>
             {% endfor %}
         </div>
     </div>
 
     <div class="mb-3">
-        <label for="general_comments" class="form-label">General Comments (for the entire project/team)</label>
-        <textarea class="form-control" id="general_comments" name="general_comments" rows="4">{{ evaluation.comments|default:'' }}</textarea>
+        <label for="general_comments" class="form-label">General Comments (for the entire project/team) <span class="text-danger">*</span></label>
+        <textarea class="form-control" id="general_comments" name="general_comments" rows="4" required>{{ evaluation.comments|default:'' }}</textarea>
+        <small class="form-text text-muted">This field is required for submission.</small>
     </div>
 
     <div class="mb-3">
@@ -112,8 +134,172 @@
     </div>
 
     <button type="submit" name="action" value="save" class="btn btn-warning">Save as Draft</button>
-    <button type="submit" name="action" value="submit" class="btn btn-success">Submit Evaluation</button>
+    <button type="submit" name="action" value="submit" class="btn btn-success" id="submit-btn">Submit Evaluation</button>
     <a href="{% url 'projects:project_detail' project.id %}" class="btn btn-secondary">Cancel</a>
 </form>
 {% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.section-content {
+    transition: opacity 0.3s ease;
+}
+.section-content[style*="display: none"] {
+    opacity: 0;
+}
+.score-input.border-warning {
+    border-color: #ffc107 !important;
+    border-width: 2px !important;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Component visibility toggle functionality
+    const sectionToggles = document.querySelectorAll('.section-toggle');
+    
+    sectionToggles.forEach(toggle => {
+        toggle.addEventListener('change', function() {
+            const sectionIndex = this.dataset.sectionIndex;
+            const sectionContent = document.querySelector(`.section-content[data-section-index="${sectionIndex}"]`);
+            
+            if (this.checked) {
+                sectionContent.style.display = 'block';
+            } else {
+                sectionContent.style.display = 'none';
+                // Clear all inputs in this section when hidden
+                const inputs = sectionContent.querySelectorAll('input, textarea');
+                inputs.forEach(input => {
+                    if (input.type !== 'hidden' && input.name !== 'csrfmiddlewaretoken') {
+                        input.value = '';
+                        input.required = false;
+                    }
+                });
+            }
+        });
+    });
+    
+    // Validate general comments on submit
+    const submitBtn = document.getElementById('submit-btn');
+    const generalComments = document.getElementById('general_comments');
+    
+    if (submitBtn) {
+        submitBtn.addEventListener('click', function(e) {
+            if (!generalComments.value.trim()) {
+                e.preventDefault();
+                alert('Please provide general comments before submitting. This field is required.');
+                generalComments.focus();
+                return false;
+            }
+        });
+    }
+    
+    // Form validation
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const action = document.activeElement.value;
+            if (action === 'submit') {
+                // Check general comments
+                if (!generalComments.value.trim()) {
+                    e.preventDefault();
+                    alert('General comments are required for submission. Please fill in the general comments field.');
+                    generalComments.focus();
+                    return false;
+                }
+                
+                // Check for missing scores in visible components
+                const missingScores = [];
+                const visibleSections = document.querySelectorAll('.section-content:not([style*="display: none"])');
+                
+                visibleSections.forEach(section => {
+                    const sectionIndex = section.dataset.sectionIndex;
+                    const sectionTitle = section.closest('.section-container').querySelector('h5').textContent.trim();
+                    const scoreInputs = section.querySelectorAll('.score-input');
+                    
+                    scoreInputs.forEach(input => {
+                        const scoreValue = input.value.trim();
+                        if (!scoreValue || scoreValue === '') {
+                            const criterionName = input.closest('.mb-3').querySelector('h6').textContent.trim();
+                            const studentName = input.closest('tr').querySelector('td strong').textContent.trim();
+                            
+                            missingScores.push({
+                                section: sectionTitle,
+                                criterion: criterionName,
+                                student: studentName
+                            });
+                        }
+                    });
+                });
+                
+                if (missingScores.length > 0) {
+                    e.preventDefault();
+                    let errorMessage = 'You missed records! Please fill in all scores for visible components:\n\n';
+                    missingScores.forEach((item, index) => {
+                        errorMessage += `${index + 1}. ${item.section} - ${item.criterion} - ${item.student}\n`;
+                    });
+                    errorMessage += '\nPlease complete all scores before submitting.';
+                    alert(errorMessage);
+                    
+                    // Focus on first missing input
+                    const firstMissing = document.querySelector('.score-input:invalid, .score-input[value=""]');
+                    if (firstMissing) {
+                        firstMissing.focus();
+                        firstMissing.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return false;
+                }
+            }
+        });
+    }
+    
+    // Real-time validation: highlight missing scores when section is visible
+    sectionToggles.forEach(toggle => {
+        toggle.addEventListener('change', function() {
+            if (this.checked) {
+                // When section becomes visible, check for missing scores
+                const sectionIndex = this.dataset.sectionIndex;
+                const sectionContent = document.querySelector(`.section-content[data-section-index="${sectionIndex}"]`);
+                const scoreInputs = sectionContent.querySelectorAll('.score-input');
+                
+                scoreInputs.forEach(input => {
+                    if (!input.value || input.value.trim() === '') {
+                        input.classList.add('border-warning');
+                        input.style.backgroundColor = '#fff3cd';
+                    } else {
+                        input.classList.remove('border-warning');
+                        input.style.backgroundColor = '';
+                    }
+                });
+            }
+        });
+    });
+    
+    // Highlight empty score inputs on blur
+    document.querySelectorAll('.score-input').forEach(input => {
+        input.addEventListener('blur', function() {
+            const sectionContent = this.closest('.section-content');
+            if (sectionContent && sectionContent.style.display !== 'none') {
+                if (!this.value || this.value.trim() === '') {
+                    this.classList.add('border-warning');
+                    this.style.backgroundColor = '#fff3cd';
+                } else {
+                    this.classList.remove('border-warning');
+                    this.style.backgroundColor = '';
+                }
+            }
+        });
+        
+        input.addEventListener('input', function() {
+            if (this.value && this.value.trim() !== '') {
+                this.classList.remove('border-warning');
+                this.style.backgroundColor = '';
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
