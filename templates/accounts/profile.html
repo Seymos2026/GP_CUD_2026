@@ -10,6 +10,7 @@
         <p class="card-text"><strong>Username:</strong> {{ user.username }}</p>
         <p class="card-text"><strong>Email:</strong> {{ user.email|default:"Not provided" }}</p>
         <p class="card-text"><strong>Role:</strong> {{ user.get_role_display }}</p>
+        <a href="{% url 'accounts:password_change' %}" class="btn btn-outline-primary">Change Password</a>
     </div>
 </div>
 {% endblock %}

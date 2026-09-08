@@ -11,6 +11,10 @@ class User(AbstractUser):
         FACULTY = "FACULTY", "Faculty"
     
     role = models.CharField(max_length=10, choices=Role.choices, default=Role.STUDENT)
+    must_change_password = models.BooleanField(
+        default=True,
+        help_text="Force this user to set a new password the next time they sign in.",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

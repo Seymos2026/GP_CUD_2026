@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from .models import User
-from .forms import EmailAuthenticationForm
+from .forms import EmailAuthenticationForm, ForcedPasswordChangeForm
 
 
 def home(request):
@@ -255,3 +255,33 @@ def login_view(request):
         form = EmailAuthenticationForm()
     
     return render(request, 'accounts/login.html', {'form': form})
+
+
+@login_required
+def password_change(request):
+    """
+    Change password. Reached automatically on first login (the middleware
+    redirects here while must_change_password is set) and reachable any time
+    from the profile page.
+    """
+    forced = request.user.must_change_password
+
+    if request.method == 'POST':
+        form = ForcedPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            if user.must_change_password:
+                user.must_change_password = False
+                user.save(update_fields=['must_change_password'])
+            # Keep the user signed in - changing the password rotates the
+            # session auth hash and would otherwise log them straight out.
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password has been updated.')
+            return redirect('accounts:home')
+    else:
+        form = ForcedPasswordChangeForm(request.user)
+
+    return render(request, 'accounts/password_change.html', {
+        'form': form,
+        'forced': forced,
+    })

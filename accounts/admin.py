@@ -6,14 +6,20 @@ from .models import User, Faculty, Student
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     """Admin interface for User model"""
-    list_display = ['username', 'email', 'first_name', 'last_name', 'role', 'is_active', 'is_staff']
-    list_filter = ['role', 'is_active', 'is_staff', 'date_joined']
+    list_display = ['username', 'email', 'first_name', 'last_name', 'role', 'is_active', 'is_staff', 'must_change_password']
+    list_filter = ['role', 'is_active', 'is_staff', 'must_change_password', 'date_joined']
+    actions = ['require_password_change']
     fieldsets = BaseUserAdmin.fieldsets + (
-        ('Role', {'fields': ('role',)}),
+        ('Role', {'fields': ('role', 'must_change_password')}),
     )
     add_fieldsets = BaseUserAdmin.add_fieldsets + (
-        ('Role', {'fields': ('role',)}),
+        ('Role', {'fields': ('role', 'must_change_password')}),
     )
+
+    @admin.action(description='Require selected users to change password at next login')
+    def require_password_change(self, request, queryset):
+        updated = queryset.update(must_change_password=True)
+        self.message_user(request, f'{updated} user(s) must change their password at next login.')
 
 
 @admin.register(Faculty)

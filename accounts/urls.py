@@ -9,6 +9,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('profile/', views.profile, name='profile'),
     path('login/', views.login_view, name='login'),
+    path('password-change/', views.password_change, name='password_change'),
     path('logout/', auth_views.LogoutView.as_view(next_page='accounts:home'), name='logout'),
     path('send-reminder/<int:project_id>/<int:faculty_id>/', views.send_reminder, name='send_reminder'),
 ]
