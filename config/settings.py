@@ -98,6 +98,10 @@ DATABASES = {
     "default": dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
+        # Managed Postgres (Neon, Supabase, a sleeping Render service) can drop
+        # an idle connection. Without this, the first request after an idle
+        # period fails on a dead connection instead of reconnecting.
+        conn_health_checks=True,
     )
 }
 

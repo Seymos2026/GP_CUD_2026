@@ -6,6 +6,21 @@ pip install -r requirements.txt
 python manage.py collectstatic --no-input
 python manage.py migrate
 
+# First deploy against an empty database: restore the data fixture.
+# Skipped once the database has users, so redeploys never overwrite live data.
+if [[ -f seed.json ]]; then
+  python manage.py shell -c "
+from django.contrib.auth import get_user_model
+from django.core.management import call_command
+
+if get_user_model().objects.exists():
+    print('Database already has users - skipping seed.json.')
+else:
+    print('Empty database - loading seed.json...')
+    call_command('loaddata', 'seed.json')
+"
+fi
+
 # Render's free tier has no shell, so the admin account is created here.
 # Safe to re-run: it updates the existing account instead of failing.
 if [[ -n "${DJANGO_SUPERUSER_USERNAME:-}" && -n "${DJANGO_SUPERUSER_PASSWORD:-}" ]]; then

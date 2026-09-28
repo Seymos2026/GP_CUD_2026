@@ -21,3 +21,4 @@ media/
 # Backups
 *.bak
 staticfiles/
+db.sqlite3.*

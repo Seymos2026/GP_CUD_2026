@@ -7,10 +7,16 @@ from .models import User, Student, Faculty
 
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_user_profile(sender, instance, created, raw=False, **kwargs):
     """
-    Automatically create Student or Faculty profile when a User is created with the corresponding role
+    Automatically create Student or Faculty profile when a User is created with the corresponding role.
+
+    Skipped during fixture loading (raw=True): loaddata writes the Student and
+    Faculty rows itself, and creating them here first collides with them.
     """
+    if raw:
+        return
+
     if created:
         if instance.role == User.Role.STUDENT:
             # Create Student profile if it doesn't exist

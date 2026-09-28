@@ -1,0 +1,2056 @@
+[
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$bgzW19kKWoD71CHUK4Xeys$XNKkKcKqGspMYa/gdrI597oe6Y0nBEl6AhHGKUFqK7I=",
+    "last_login": "2026-08-27T06:50:07.988Z",
+    "is_superuser": true,
+    "username": "GPADMIN",
+    "first_name": "Tamer",
+    "last_name": "Mohammed",
+    "email": "GPADMIN@cud.ac.ae",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-01-18T15:35:29Z",
+    "role": "ADMIN",
+    "must_change_password": false,
+    "created_at": "2026-01-18T15:35:29.853Z",
+    "updated_at": "2026-02-02T20:04:33.418Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$ORxiinov0z6f6afyh0NNnr$6uXX7g+g72qY5lfORlr5BcfLXoDarXwhDy9UZkTeVD4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220001588@students.cud.ac.ae",
+    "first_name": "Lara",
+    "last_name": "Ali",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-22T18:18:23Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-22T18:18:23.541Z",
+    "updated_at": "2026-01-23T05:07:30.436Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$LOInOTAh0rBFyX1mw1RHPO$inLRJQ/KyL4q3UtloNU9GFQ3hbvAEwHi75BRNEoQKqE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220002177@students.cud.ac.ae",
+    "first_name": "Lana",
+    "last_name": "Alnajjar",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-22T18:19:28Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-22T18:19:28.258Z",
+    "updated_at": "2026-01-23T05:06:24.036Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$jf79FftwBPb5o7bvwUMcpi$ARj29VxoGmUhkscOHqpFtK5P3WXySPZEpFpvXR5//Eo=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "0220001333@students.cud.ac.ae",
+    "first_name": "Nada",
+    "last_name": "Ibrahim",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-22T18:20:17Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-22T18:20:18.138Z",
+    "updated_at": "2026-01-23T05:09:26.049Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$o9qTqFOAr0koaxKrv5Yg9x$ggOFnPab1lw9PYPVSlvflmrJUxvvKaNVpbbRt1VTXqo=",
+    "last_login": "2026-02-03T05:26:14.267Z",
+    "is_superuser": false,
+    "username": "m.injadat@cud.ac.ae",
+    "first_name": "Mohamed",
+    "last_name": "Noor",
+    "email": "m.injadat@cud.ac.ae",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-22T18:58:45Z",
+    "role": "FACULTY",
+    "must_change_password": false,
+    "created_at": "2026-01-22T18:58:45.628Z",
+    "updated_at": "2026-01-22T19:09:47.364Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$dGJQavA5YICN4cs91ZyLdS$K0AQMT9UcToMBXUbzZvJVkC+5gLZEOCWAUUOQR4l6Ls=",
+    "last_login": "2026-02-03T05:42:14Z",
+    "is_superuser": false,
+    "username": "Lobna.AbuSerrieh@cud.ac.ae",
+    "first_name": "Lobna",
+    "last_name": "abuserrieh",
+    "email": "lobna.abuserrieh@cud.ac.ae",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-22T19:04:04Z",
+    "role": "FACULTY",
+    "must_change_password": false,
+    "created_at": "2026-01-22T19:04:04.342Z",
+    "updated_at": "2026-02-03T05:42:52.329Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$mRIlqPMaDs0HuueErVx7R5$87yhpEzGum9m+TBaUKSmrA+us8n+Ivgf0kN5zpAx7ro=",
+    "last_login": "2026-02-03T05:30:29.826Z",
+    "is_superuser": false,
+    "username": "najla.alfutaisi@cud.ac.ae",
+    "first_name": "Najla",
+    "last_name": "ALfutaisi",
+    "email": "najla.alfutaisi@cud.ac.ae",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-22T19:06:58Z",
+    "role": "FACULTY",
+    "must_change_password": false,
+    "created_at": "2026-01-22T19:06:58.615Z",
+    "updated_at": "2026-01-22T19:10:37.545Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$66eoH1yUGz2zXH1xRZrCc8$WY/8jHrN1tJBVpy2xcvnWEYaKdwcfeurAZmowfoFz3I=",
+    "last_login": "2026-02-03T05:27:36.848Z",
+    "is_superuser": false,
+    "username": "mehak.khurana@cud.ac.ae",
+    "first_name": "Mehak",
+    "last_name": "Khurana",
+    "email": "mehak.khurana@cud.ac.ae",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-22T19:14:09Z",
+    "role": "FACULTY",
+    "must_change_password": false,
+    "created_at": "2026-01-22T19:14:09.707Z",
+    "updated_at": "2026-01-22T19:15:07.345Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$uRipvCbrP9aKsnT8LKa19a$zYT26ANA4cUInNu/+0A3YJU4WEI2N8toljHOyjrYVNE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220001032@students.cud.ac.ae",
+    "first_name": "Mahdi",
+    "last_name": "Parvaz",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:05:04Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:05:04.773Z",
+    "updated_at": "2026-01-23T05:05:28.536Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$Hcz39mEcVCHMBNp2ZYqUjA$SJarzT/l5TUyw8qHG63z/vGCaY/OJiL/jG/hTSpyELM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220001641@students.cud.ac.ae",
+    "first_name": "Thejaswini",
+    "last_name": "Suni",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:10:10Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:10:10.176Z",
+    "updated_at": "2026-01-23T05:10:46.080Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$IUbbkQcostdNrevlxAh8PU$T1oPvrn0FMR/06CaGHsGiUxpDvxFMt3yWMWTMDxOA5U=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20210001411@students.cud.ac.ae",
+    "first_name": "Amro",
+    "last_name": "Asmar",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:18:24Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:18:24.817Z",
+    "updated_at": "2026-01-23T05:18:33.703Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$cP6ph3wgwjuUo28G483AYE$36eZcHygTKdtoA1JSFp/ZIEzbRKuQxnY5+gF4iEJUoc=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220001939@students.cud.ac.ae",
+    "first_name": "Haya",
+    "last_name": "Hijazi",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:21:14Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:21:14.120Z",
+    "updated_at": "2026-01-23T05:21:35.016Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$wpeeCQkYMjBIBTxGd4DUzn$O60J8A6p1aOoDye/75qzPG2Hw6Cwa4mOTLdn7idZQFI=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20210001302@students.cud.ac.ae",
+    "first_name": "Omar",
+    "last_name": "Mousa",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:22:03Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:22:03.183Z",
+    "updated_at": "2026-01-23T05:22:20.859Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$PDo0Z7HkwoK4wWo41qv6pd$g3BlimGGe2dK2wJsN3VrkPzXGRGcj++KNKqJVnA3Bcc=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220001126@students.cud.ac.ae",
+    "first_name": "Saeid",
+    "last_name": "Houssainaei",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:23:36Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:23:36.154Z",
+    "updated_at": "2026-01-23T05:23:55.027Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$ul6xwWzKrCsBlaoRHVLTSS$KRcTLgBxrxhOD77qAGAMilUPzhv7IvIka05CgMh1t9Y=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20210001826@students.cud.ac.ae",
+    "first_name": "Majed",
+    "last_name": "Alzenati",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:24:41Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:24:41.346Z",
+    "updated_at": "2026-01-23T05:24:58.438Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$OSzslLw7pTquZE0UzY8lgU$aotYh2jj4Ux0cu51AsVGTLHHuVEc4gCmc/asoHbhWjE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220002117@students.cud.ac.ae",
+    "first_name": "Al Hussain",
+    "last_name": "Al Shehhi",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:25:27Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:25:28.041Z",
+    "updated_at": "2026-01-23T05:25:51.839Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$z2NQAETRpjFxNkILqXUWPA$RyWPTK2JPQFZ0oYmIfZi9QvS/9x/9NJQXn5T1EjRun4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220001279@students.cud.ac.ae",
+    "first_name": "Raya",
+    "last_name": "El Housseini",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:26:28Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:26:28.609Z",
+    "updated_at": "2026-01-23T05:27:43.438Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$dG7395lPZ1nBbNS5DU4fvN$LMqDcnrnYFHpLIw2DK3YkOClFPYnMxYIHbO3cuaPyBQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220002671@students.cud.ac.ae",
+    "first_name": "Huma",
+    "last_name": "Arif",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:28:34Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:28:34.217Z",
+    "updated_at": "2026-01-23T05:28:54.423Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$d6CYZjj3EToAYC72ALYofQ$X1YA9Sn+iTpyo8ZsBCbdJsVs1DfFyIytq0PEKNmKpdk=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220001933@students.cud.ac.ae",
+    "first_name": "Tarek",
+    "last_name": "Skaf",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:29:32Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:29:32.314Z",
+    "updated_at": "2026-01-23T05:29:46.630Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$RsgrBsvaKOHbu1QyqpYCRh$L4YQ0YPPpjzcsC2HUM/QjTgyQoBZYOQKRe6dqF0Ibio=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220002006@students.cud.ac.ae",
+    "first_name": "Husham",
+    "last_name": "Aledresi",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:31:07Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:31:07.596Z",
+    "updated_at": "2026-01-23T05:31:19.823Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$nUqavGDwGfMqopnqzyTcPI$/tgXKv8Td+B2uekFExTl6m9uIZEtY1QYti2BYFlZC3s=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220001208@students.cud.ac.ae",
+    "first_name": "Ossama",
+    "last_name": "Alhussni",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:32:14Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:32:15.025Z",
+    "updated_at": "2026-01-23T05:32:26.950Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$eZcRgaJicDmjtPKY7SVmlx$0V7XFWmUlztR3xR+6J+XgkwNXgc3KkFaqzeD1X7vPNk=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220001550@students.cud.ac.ae",
+    "first_name": "Noureddin",
+    "last_name": "Albaba",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:33:08Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:33:08.827Z",
+    "updated_at": "2026-01-23T05:33:23.025Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$8Uhbgyo4nyevDVv4X9RXp2$bAWJoBcq6h5NXL3KyZCav//ljhwfeNLFDMWrASvul5Q=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220002173@students.cud.ac.ae",
+    "first_name": "Mohamed",
+    "last_name": "Aasim",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:34:35Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:34:35.872Z",
+    "updated_at": "2026-01-23T05:34:48.057Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$Zpn4uFLNnwMa0PlVuF3v1C$TiMnJjxW+NMC8pa+n1jSYEpadHubVeo+K+VTr35WFmE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220002001@students.cud.ac.ae",
+    "first_name": "Omar",
+    "last_name": "Sherif",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:35:31Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:35:31.760Z",
+    "updated_at": "2026-01-23T05:35:46.314Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$fxJWirG1z4FKSt3PVDzH3U$X6qg2Qd+MY8fKHo3HKTnCB7G8UEl87ESgtKL8Y3bz14=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220001397@students.cud.ac.ae",
+    "first_name": "Ibrahim",
+    "last_name": "Adel",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:37:43Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:37:43.340Z",
+    "updated_at": "2026-01-23T05:37:53.813Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$JfBSCg3bb4v6MM5NsSSNuJ$V++IKeAji+ogoOiAXqLyOBeQy0uhK3IBfkEoWLkTgV0=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "20220001549@students.cud.ac.ae",
+    "first_name": "Omar",
+    "last_name": "Alraas",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-23T05:38:33Z",
+    "role": "STUDENT",
+    "must_change_password": false,
+    "created_at": "2026-01-23T05:38:33.661Z",
+    "updated_at": "2026-01-23T05:38:43.486Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.faculty",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "m.injadat@cud.ac.ae"
+    ],
+    "faculty_id": "2",
+    "department": "CECS",
+    "specialization": "CECS",
+    "created_at": "2026-01-22T18:59:00.168Z",
+    "updated_at": "2026-01-22T18:59:00.168Z"
+  }
+},
+{
+  "model": "accounts.faculty",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "Lobna.AbuSerrieh@cud.ac.ae"
+    ],
+    "faculty_id": "3",
+    "department": "CECS",
+    "specialization": "CECS",
+    "created_at": "2026-01-22T19:04:14.359Z",
+    "updated_at": "2026-01-22T19:04:14.359Z"
+  }
+},
+{
+  "model": "accounts.faculty",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "najla.alfutaisi@cud.ac.ae"
+    ],
+    "faculty_id": "4",
+    "department": "CECS",
+    "specialization": "CECS",
+    "created_at": "2026-01-22T19:07:14.036Z",
+    "updated_at": "2026-01-22T19:07:14.036Z"
+  }
+},
+{
+  "model": "accounts.faculty",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "mehak.khurana@cud.ac.ae"
+    ],
+    "faculty_id": "5",
+    "department": "CECS",
+    "specialization": "CECS",
+    "created_at": "2026-01-22T19:14:16.951Z",
+    "updated_at": "2026-01-22T19:14:16.951Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "20220001588@students.cud.ac.ae"
+    ],
+    "student_id": "20220001588",
+    "major": "CECS",
+    "team": 2,
+    "created_at": "2026-01-22T18:18:46.879Z",
+    "updated_at": "2026-01-22T18:18:46.879Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "20220002177@students.cud.ac.ae"
+    ],
+    "student_id": "20220002177",
+    "major": "CECS",
+    "team": 2,
+    "created_at": "2026-01-22T18:19:31.379Z",
+    "updated_at": "2026-01-22T18:19:31.379Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "0220001333@students.cud.ac.ae"
+    ],
+    "student_id": "20220001333",
+    "major": "CECS",
+    "team": 2,
+    "created_at": "2026-01-22T18:20:27.945Z",
+    "updated_at": "2026-01-22T18:20:27.945Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "20220001032@students.cud.ac.ae"
+    ],
+    "student_id": "20220001032",
+    "major": "CECS",
+    "team": 3,
+    "created_at": "2026-01-23T06:02:27.340Z",
+    "updated_at": "2026-01-23T06:15:41.580Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "20220001641@students.cud.ac.ae"
+    ],
+    "student_id": "20220001641",
+    "major": "CECS",
+    "team": 3,
+    "created_at": "2026-01-23T06:02:27.341Z",
+    "updated_at": "2026-01-23T06:25:04.159Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "20210001411@students.cud.ac.ae"
+    ],
+    "student_id": "20210001411",
+    "major": "CECS",
+    "team": 4,
+    "created_at": "2026-01-23T06:02:27.342Z",
+    "updated_at": "2026-01-23T06:25:12.595Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "20220001939@students.cud.ac.ae"
+    ],
+    "student_id": "20220001939",
+    "major": "CECS",
+    "team": 4,
+    "created_at": "2026-01-23T06:02:27.343Z",
+    "updated_at": "2026-01-23T06:25:22.910Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 10,
+  "fields": {
+    "user": [
+      "20210001302@students.cud.ac.ae"
+    ],
+    "student_id": "20210001302",
+    "major": "CECS",
+    "team": 4,
+    "created_at": "2026-01-23T06:02:27.343Z",
+    "updated_at": "2026-01-23T06:25:34.258Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 11,
+  "fields": {
+    "user": [
+      "20220001126@students.cud.ac.ae"
+    ],
+    "student_id": "20220001126",
+    "major": "CECS",
+    "team": 5,
+    "created_at": "2026-01-23T06:02:27.344Z",
+    "updated_at": "2026-01-23T06:25:43.563Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 12,
+  "fields": {
+    "user": [
+      "20210001826@students.cud.ac.ae"
+    ],
+    "student_id": "20210001826",
+    "major": "CECS",
+    "team": 5,
+    "created_at": "2026-01-23T06:02:27.346Z",
+    "updated_at": "2026-01-23T06:25:53.657Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 13,
+  "fields": {
+    "user": [
+      "20220002117@students.cud.ac.ae"
+    ],
+    "student_id": "20220002117",
+    "major": "CECS",
+    "team": 5,
+    "created_at": "2026-01-23T06:02:27.346Z",
+    "updated_at": "2026-01-23T06:26:04.628Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 14,
+  "fields": {
+    "user": [
+      "20220001279@students.cud.ac.ae"
+    ],
+    "student_id": "20220001279",
+    "major": "CECS",
+    "team": 6,
+    "created_at": "2026-01-23T06:02:27.347Z",
+    "updated_at": "2026-01-23T06:26:14.462Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 15,
+  "fields": {
+    "user": [
+      "20220002671@students.cud.ac.ae"
+    ],
+    "student_id": "20220002671",
+    "major": "CECS",
+    "team": 6,
+    "created_at": "2026-01-23T06:02:27.348Z",
+    "updated_at": "2026-01-23T06:26:25.389Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 16,
+  "fields": {
+    "user": [
+      "20220001933@students.cud.ac.ae"
+    ],
+    "student_id": "20220001933",
+    "major": "CECS",
+    "team": 6,
+    "created_at": "2026-01-23T06:02:27.349Z",
+    "updated_at": "2026-01-23T06:26:38.210Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 17,
+  "fields": {
+    "user": [
+      "20220002006@students.cud.ac.ae"
+    ],
+    "student_id": "20220002006",
+    "major": "CECS",
+    "team": 6,
+    "created_at": "2026-01-23T06:02:27.349Z",
+    "updated_at": "2026-01-23T06:26:48.263Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 18,
+  "fields": {
+    "user": [
+      "20220001208@students.cud.ac.ae"
+    ],
+    "student_id": "20220001208",
+    "major": "CECS",
+    "team": 7,
+    "created_at": "2026-01-23T06:02:27.351Z",
+    "updated_at": "2026-01-23T06:26:59.229Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 19,
+  "fields": {
+    "user": [
+      "20220001550@students.cud.ac.ae"
+    ],
+    "student_id": "20220001550",
+    "major": "CECS",
+    "team": 7,
+    "created_at": "2026-01-23T06:02:27.352Z",
+    "updated_at": "2026-01-23T06:27:11.093Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 20,
+  "fields": {
+    "user": [
+      "20220002173@students.cud.ac.ae"
+    ],
+    "student_id": "20220002173",
+    "major": "CECS",
+    "team": 7,
+    "created_at": "2026-01-23T06:02:27.352Z",
+    "updated_at": "2026-01-23T06:27:21.779Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 21,
+  "fields": {
+    "user": [
+      "20220002001@students.cud.ac.ae"
+    ],
+    "student_id": "20220002001",
+    "major": "CECS",
+    "team": 8,
+    "created_at": "2026-01-23T06:02:27.353Z",
+    "updated_at": "2026-01-23T06:27:38.985Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 22,
+  "fields": {
+    "user": [
+      "20220001397@students.cud.ac.ae"
+    ],
+    "student_id": "20220001397",
+    "major": "CECS",
+    "team": 8,
+    "created_at": "2026-01-23T06:02:27.354Z",
+    "updated_at": "2026-01-23T06:28:01.241Z"
+  }
+},
+{
+  "model": "accounts.student",
+  "pk": 23,
+  "fields": {
+    "user": [
+      "20220001549@students.cud.ac.ae"
+    ],
+    "student_id": "20220001549",
+    "major": "CECS",
+    "team": 8,
+    "created_at": "2026-01-23T06:02:27.355Z",
+    "updated_at": "2026-01-23T06:28:12.620Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 1,
+  "fields": {
+    "project": 2,
+    "faculty": 1,
+    "role": "SUPERVISOR",
+    "created_at": "2026-01-22T18:59:43.769Z",
+    "updated_at": "2026-01-22T18:59:43.769Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 2,
+  "fields": {
+    "project": 2,
+    "faculty": 2,
+    "role": "JUDGE",
+    "created_at": "2026-01-22T19:05:22.492Z",
+    "updated_at": "2026-01-22T19:05:22.492Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 3,
+  "fields": {
+    "project": 2,
+    "faculty": 3,
+    "role": "JUDGE",
+    "created_at": "2026-01-22T19:14:41.336Z",
+    "updated_at": "2026-01-22T19:14:41.336Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 4,
+  "fields": {
+    "project": 2,
+    "faculty": 4,
+    "role": "JUDGE",
+    "created_at": "2026-01-22T19:14:41.337Z",
+    "updated_at": "2026-01-22T19:14:41.337Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 5,
+  "fields": {
+    "project": 3,
+    "faculty": 4,
+    "role": "SUPERVISOR",
+    "created_at": "2026-01-23T05:40:47.310Z",
+    "updated_at": "2026-01-23T05:40:47.310Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 6,
+  "fields": {
+    "project": 3,
+    "faculty": 2,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:40:47.311Z",
+    "updated_at": "2026-01-23T05:40:47.311Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 7,
+  "fields": {
+    "project": 3,
+    "faculty": 1,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:40:47.311Z",
+    "updated_at": "2026-01-23T05:40:47.311Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 8,
+  "fields": {
+    "project": 3,
+    "faculty": 3,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:40:47.311Z",
+    "updated_at": "2026-01-23T05:40:47.311Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 9,
+  "fields": {
+    "project": 4,
+    "faculty": 3,
+    "role": "SUPERVISOR",
+    "created_at": "2026-01-23T05:43:53.961Z",
+    "updated_at": "2026-01-23T05:43:53.961Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 10,
+  "fields": {
+    "project": 4,
+    "faculty": 1,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:43:53.961Z",
+    "updated_at": "2026-01-23T05:43:53.961Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 11,
+  "fields": {
+    "project": 4,
+    "faculty": 2,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:43:53.962Z",
+    "updated_at": "2026-01-23T05:43:53.962Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 12,
+  "fields": {
+    "project": 4,
+    "faculty": 4,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:43:53.962Z",
+    "updated_at": "2026-01-23T05:43:53.963Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 13,
+  "fields": {
+    "project": 5,
+    "faculty": 2,
+    "role": "SUPERVISOR",
+    "created_at": "2026-01-23T05:45:44.791Z",
+    "updated_at": "2026-01-23T05:45:44.791Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 14,
+  "fields": {
+    "project": 5,
+    "faculty": 1,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:45:44.791Z",
+    "updated_at": "2026-01-23T05:45:44.791Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 15,
+  "fields": {
+    "project": 5,
+    "faculty": 3,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:45:44.791Z",
+    "updated_at": "2026-01-23T05:45:44.791Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 16,
+  "fields": {
+    "project": 5,
+    "faculty": 4,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:45:44.792Z",
+    "updated_at": "2026-01-23T05:45:44.792Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 17,
+  "fields": {
+    "project": 6,
+    "faculty": 4,
+    "role": "SUPERVISOR",
+    "created_at": "2026-01-23T05:48:47.464Z",
+    "updated_at": "2026-01-23T05:48:47.464Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 18,
+  "fields": {
+    "project": 6,
+    "faculty": 1,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:48:47.464Z",
+    "updated_at": "2026-01-23T05:48:47.464Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 19,
+  "fields": {
+    "project": 6,
+    "faculty": 3,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:48:47.465Z",
+    "updated_at": "2026-01-23T05:48:47.465Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 20,
+  "fields": {
+    "project": 6,
+    "faculty": 2,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:48:47.465Z",
+    "updated_at": "2026-01-23T05:48:47.465Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 21,
+  "fields": {
+    "project": 7,
+    "faculty": 3,
+    "role": "SUPERVISOR",
+    "created_at": "2026-01-23T05:50:03.365Z",
+    "updated_at": "2026-01-23T05:50:03.365Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 22,
+  "fields": {
+    "project": 7,
+    "faculty": 1,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:50:03.366Z",
+    "updated_at": "2026-01-23T05:50:03.366Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 23,
+  "fields": {
+    "project": 7,
+    "faculty": 2,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:50:03.366Z",
+    "updated_at": "2026-01-23T05:50:03.366Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 24,
+  "fields": {
+    "project": 7,
+    "faculty": 4,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:50:03.366Z",
+    "updated_at": "2026-01-23T05:50:03.366Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 25,
+  "fields": {
+    "project": 8,
+    "faculty": 2,
+    "role": "SUPERVISOR",
+    "created_at": "2026-01-23T05:52:32.216Z",
+    "updated_at": "2026-01-23T05:52:32.216Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 26,
+  "fields": {
+    "project": 8,
+    "faculty": 1,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:52:32.217Z",
+    "updated_at": "2026-01-23T05:52:32.217Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 27,
+  "fields": {
+    "project": 8,
+    "faculty": 3,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:52:32.217Z",
+    "updated_at": "2026-01-23T05:52:32.217Z"
+  }
+},
+{
+  "model": "projects.facultyprojectassignment",
+  "pk": 28,
+  "fields": {
+    "project": 8,
+    "faculty": 4,
+    "role": "JUDGE",
+    "created_at": "2026-01-23T05:52:32.218Z",
+    "updated_at": "2026-01-23T05:52:32.218Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 2,
+  "fields": {
+    "title": "GP_SP2025_01",
+    "description": "",
+    "rubric": 2,
+    "status": "EVALUATING",
+    "created_at": "2026-01-22T09:04:54.013Z",
+    "updated_at": "2026-01-22T19:14:41.334Z",
+    "created_by": [
+      "GPADMIN"
+    ]
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 3,
+  "fields": {
+    "title": "GP_SP2025_02",
+    "description": "",
+    "rubric": 2,
+    "status": "EVALUATING",
+    "created_at": "2026-01-23T05:40:47.308Z",
+    "updated_at": "2026-01-23T05:40:47.308Z",
+    "created_by": [
+      "GPADMIN"
+    ]
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 4,
+  "fields": {
+    "title": "GP_SP2025_03",
+    "description": "",
+    "rubric": 2,
+    "status": "EVALUATING",
+    "created_at": "2026-01-23T05:43:53.958Z",
+    "updated_at": "2026-01-23T05:43:53.958Z",
+    "created_by": [
+      "GPADMIN"
+    ]
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 5,
+  "fields": {
+    "title": "GP_SP2025_04",
+    "description": "",
+    "rubric": 2,
+    "status": "EVALUATING",
+    "created_at": "2026-01-23T05:45:44.789Z",
+    "updated_at": "2026-01-23T05:45:44.789Z",
+    "created_by": [
+      "GPADMIN"
+    ]
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 6,
+  "fields": {
+    "title": "GP_SP2025_05",
+    "description": "",
+    "rubric": 2,
+    "status": "EVALUATING",
+    "created_at": "2026-01-23T05:48:47.462Z",
+    "updated_at": "2026-01-23T05:48:47.462Z",
+    "created_by": [
+      "GPADMIN"
+    ]
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 7,
+  "fields": {
+    "title": "GP_SP2025_06",
+    "description": "",
+    "rubric": 2,
+    "status": "EVALUATING",
+    "created_at": "2026-01-23T05:50:03.363Z",
+    "updated_at": "2026-01-23T05:50:03.363Z",
+    "created_by": [
+      "GPADMIN"
+    ]
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 8,
+  "fields": {
+    "title": "GP_SP2025_07",
+    "description": "",
+    "rubric": 2,
+    "status": "COMPLETED",
+    "created_at": "2026-01-23T05:52:32.215Z",
+    "updated_at": "2026-01-23T05:52:32.215Z",
+    "created_by": [
+      "GPADMIN"
+    ]
+  }
+},
+{
+  "model": "projects.team",
+  "pk": 2,
+  "fields": {
+    "project": 2,
+    "team_name": "Lara's Team",
+    "created_at": "2026-01-22T18:18:44.328Z",
+    "updated_at": "2026-01-23T05:55:56.748Z"
+  }
+},
+{
+  "model": "projects.team",
+  "pk": 3,
+  "fields": {
+    "project": 3,
+    "team_name": "Mahdi's Team",
+    "created_at": "2026-01-23T05:41:06.623Z",
+    "updated_at": "2026-01-23T05:54:32.782Z"
+  }
+},
+{
+  "model": "projects.team",
+  "pk": 4,
+  "fields": {
+    "project": 4,
+    "team_name": "Amro's Team",
+    "created_at": "2026-01-23T06:16:28.704Z",
+    "updated_at": "2026-01-23T06:16:28.704Z"
+  }
+},
+{
+  "model": "projects.team",
+  "pk": 5,
+  "fields": {
+    "project": 5,
+    "team_name": "Saeid's Team",
+    "created_at": "2026-01-23T06:17:12.573Z",
+    "updated_at": "2026-01-23T06:17:12.573Z"
+  }
+},
+{
+  "model": "projects.team",
+  "pk": 6,
+  "fields": {
+    "project": 6,
+    "team_name": "Raya's Team",
+    "created_at": "2026-01-23T06:17:34.920Z",
+    "updated_at": "2026-01-23T06:17:34.920Z"
+  }
+},
+{
+  "model": "projects.team",
+  "pk": 7,
+  "fields": {
+    "project": 7,
+    "team_name": "Osama's Team",
+    "created_at": "2026-01-23T06:17:58.577Z",
+    "updated_at": "2026-01-23T06:17:58.577Z"
+  }
+},
+{
+  "model": "projects.team",
+  "pk": 8,
+  "fields": {
+    "project": 8,
+    "team_name": "Omar's Team",
+    "created_at": "2026-01-23T06:18:14.539Z",
+    "updated_at": "2026-01-23T06:18:14.539Z"
+  }
+},
+{
+  "model": "rubrics.rubric",
+  "pk": 2,
+  "fields": {
+    "name": "BCS-410 Graduation Project Evaluation Rubric",
+    "description": "Standard rubric for evaluating Computer Science graduation projects (BCS-410). Includes group-based and individual evaluations. Total: 100 points.",
+    "max_total_score": "100.00",
+    "created_at": "2026-01-19T19:38:41.366Z",
+    "updated_at": "2026-01-19T20:14:08.193Z",
+    "created_by": null,
+    "file_path": null
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 54,
+  "fields": {
+    "rubric": 2,
+    "name": "1.1",
+    "description": "Participates in the establishment of goals and work plans of the team (The presentation includes a specific and clear problem statement, with a well-defined action plan, work distribution, and timeline).",
+    "weight": "1.00",
+    "max_score": "2.50",
+    "order": 1,
+    "section_title": "Midterm Presentation",
+    "created_at": "2026-01-19T20:14:08.200Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 55,
+  "fields": {
+    "rubric": 2,
+    "name": "1.2",
+    "description": "Applies software development lifecycles and methodologies (The presentation shows how the project applies software development lifecycles, methodologies, or cyber security best practices effectively).",
+    "weight": "1.00",
+    "max_score": "2.50",
+    "order": 2,
+    "section_title": "Midterm Presentation",
+    "created_at": "2026-01-19T20:14:08.202Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 56,
+  "fields": {
+    "rubric": 2,
+    "name": "1.3",
+    "description": "The team demonstrates confidence in the subject matter, effectively answers all questions, and all members actively participate in the presentation.",
+    "weight": "1.00",
+    "max_score": "5.00",
+    "order": 3,
+    "section_title": "Midterm Presentation",
+    "created_at": "2026-01-19T20:14:08.203Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 57,
+  "fields": {
+    "rubric": 2,
+    "name": "2.1",
+    "description": "Provides supporting details which enhance the quality of the report (Includes a complete literature review, comparison with other work, conclusions, and references from various resources).",
+    "weight": "1.00",
+    "max_score": "5.00",
+    "order": 4,
+    "section_title": "Midterm Report",
+    "created_at": "2026-01-19T20:14:08.205Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 58,
+  "fields": {
+    "rubric": 2,
+    "name": "2.2",
+    "description": "Evaluate alternative solutions (Proposes at least three solutions for the problem, with a rationale for selecting the best solution).",
+    "weight": "1.00",
+    "max_score": "5.00",
+    "order": 5,
+    "section_title": "Midterm Report",
+    "created_at": "2026-01-19T20:14:08.206Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 59,
+  "fields": {
+    "rubric": 2,
+    "name": "2.3",
+    "description": "A preliminary solution prototype (visual, physical, technical sketch, etc.) is proposed.",
+    "weight": "1.00",
+    "max_score": "10.00",
+    "order": 6,
+    "section_title": "Midterm Report",
+    "created_at": "2026-01-19T20:14:08.208Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 60,
+  "fields": {
+    "rubric": 2,
+    "name": "3.1",
+    "description": "The poster is informative and well-organized, presenting information in a logical sequence and thoroughly covers all key aspects of the project.",
+    "weight": "1.00",
+    "max_score": "5.00",
+    "order": 7,
+    "section_title": "Poster Design",
+    "created_at": "2026-01-19T20:14:08.210Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 61,
+  "fields": {
+    "rubric": 2,
+    "name": "4.1",
+    "description": "Uses language appropriate to audience analysis (Demonstrates technical terms and engineering knowledge in presenting the problem and proposing solutions).",
+    "weight": "1.00",
+    "max_score": "2.50",
+    "order": 8,
+    "section_title": "Final Presentation",
+    "created_at": "2026-01-19T20:14:08.211Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 62,
+  "fields": {
+    "rubric": 2,
+    "name": "4.2",
+    "description": "Includes a strong introduction, clear transitions, organized ideas, and a solid conclusion.",
+    "weight": "1.00",
+    "max_score": "2.50",
+    "order": 9,
+    "section_title": "Final Presentation",
+    "created_at": "2026-01-19T20:14:08.212Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 63,
+  "fields": {
+    "rubric": 2,
+    "name": "4.3",
+    "description": "Contributes to the development of a collaborative team environment (All team members actively participate in various aspects of the presentation and show confidence in their understanding of the subject matter).",
+    "weight": "1.00",
+    "max_score": "5.00",
+    "order": 10,
+    "section_title": "Final Presentation",
+    "created_at": "2026-01-19T20:14:08.214Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 64,
+  "fields": {
+    "rubric": 2,
+    "name": "4.4",
+    "description": "Uses visuals which enhance audience understanding (The presentation includes visuals and text to clearly communicate the project's objectives and results).",
+    "weight": "1.00",
+    "max_score": "5.00",
+    "order": 11,
+    "section_title": "Final Presentation",
+    "created_at": "2026-01-19T20:14:08.216Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 65,
+  "fields": {
+    "rubric": 2,
+    "name": "5.1",
+    "description": "Includes a complete literature review, comparison with other work, and comprehensive references from various sources.",
+    "weight": "1.00",
+    "max_score": "10.00",
+    "order": 12,
+    "section_title": "Final Report",
+    "created_at": "2026-01-19T20:14:08.244Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 66,
+  "fields": {
+    "rubric": 2,
+    "name": "5.2",
+    "description": "Quality of technical documentation, including architecture diagrams, API documentation, and user manuals.",
+    "weight": "1.00",
+    "max_score": "10.00",
+    "order": 13,
+    "section_title": "Final Report",
+    "created_at": "2026-01-19T20:14:08.246Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 67,
+  "fields": {
+    "rubric": 2,
+    "name": "5.3",
+    "description": "Includes well-organized contents, tables, figures, and properly categorized citations.",
+    "weight": "1.00",
+    "max_score": "5.00",
+    "order": 14,
+    "section_title": "Final Report",
+    "created_at": "2026-01-19T20:14:08.248Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 68,
+  "fields": {
+    "rubric": 2,
+    "name": "5.4",
+    "description": "Exhibits dependability in the achievement of the team's goals (All team members contribute equally to report writing, and future improvements for the solution are recommended).",
+    "weight": "1.00",
+    "max_score": "5.00",
+    "order": 15,
+    "section_title": "Final Report",
+    "created_at": "2026-01-19T20:14:08.250Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 69,
+  "fields": {
+    "rubric": 2,
+    "name": "6.1",
+    "description": "Design and Architecture (Quality of the system design and architecture.)",
+    "weight": "1.00",
+    "max_score": "5.00",
+    "order": 16,
+    "section_title": "Final Implementation and Demonstration",
+    "created_at": "2026-01-19T20:14:08.251Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 70,
+  "fields": {
+    "rubric": 2,
+    "name": "6.2",
+    "description": "Implement a computer-based solution for the problem to meet desired goals within realistic constraints/Produce a computer-based solution for a real-world problem (The final prototype is error-free, providing a secure/ computer-based solution for a real-world problem).",
+    "weight": "1.00",
+    "max_score": "5.00",
+    "order": 17,
+    "section_title": "Final Implementation and Demonstration",
+    "created_at": "2026-01-19T20:14:08.253Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 71,
+  "fields": {
+    "rubric": 2,
+    "name": "6.3",
+    "description": "Applies new knowledge and skills in real-world projects (Comprehensive test results have been made with limitations and strengths).",
+    "weight": "1.00",
+    "max_score": "5.00",
+    "order": 18,
+    "section_title": "Final Implementation and Demonstration",
+    "created_at": "2026-01-19T20:14:08.254Z"
+  }
+},
+{
+  "model": "rubrics.criterion",
+  "pk": 72,
+  "fields": {
+    "rubric": 2,
+    "name": "6.4",
+    "description": "Analyze the performance of computing-based solutions using computer science theory and algorithms/Analyze security measures against threats to maintain the system operation.",
+    "weight": "1.00",
+    "max_score": "5.00",
+    "order": 19,
+    "section_title": "Final Implementation and Demonstration",
+    "created_at": "2026-01-19T20:14:08.256Z"
+  }
+},
+{
+  "model": "evaluations.evaluation",
+  "pk": 12,
+  "fields": {
+    "project": 8,
+    "faculty": 1,
+    "status": "SUBMITTED",
+    "total_score": null,
+    "comments": "Good",
+    "judge_signature": "Mohamed Noor",
+    "created_at": "2026-02-03T05:26:17.720Z",
+    "submitted_at": "2026-02-03T05:27:22.252Z",
+    "updated_at": "2026-02-03T05:27:22.253Z"
+  }
+},
+{
+  "model": "evaluations.evaluation",
+  "pk": 13,
+  "fields": {
+    "project": 8,
+    "faculty": 4,
+    "status": "SUBMITTED",
+    "total_score": null,
+    "comments": "not bad",
+    "judge_signature": "Mehak Khurana",
+    "created_at": "2026-02-03T05:27:38.584Z",
+    "submitted_at": "2026-02-03T05:28:21.106Z",
+    "updated_at": "2026-02-03T05:28:21.108Z"
+  }
+},
+{
+  "model": "evaluations.evaluation",
+  "pk": 14,
+  "fields": {
+    "project": 8,
+    "faculty": 3,
+    "status": "SUBMITTED",
+    "total_score": null,
+    "comments": "vgood",
+    "judge_signature": "Najla ALfutaisi",
+    "created_at": "2026-02-03T05:30:36.932Z",
+    "submitted_at": "2026-02-03T05:31:02.982Z",
+    "updated_at": "2026-02-03T05:31:02.983Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 243,
+  "fields": {
+    "evaluation": 12,
+    "criterion": 54,
+    "student": 22,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:27:22.223Z",
+    "updated_at": "2026-02-03T05:27:22.226Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 244,
+  "fields": {
+    "evaluation": 12,
+    "criterion": 54,
+    "student": 23,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:27:22.229Z",
+    "updated_at": "2026-02-03T05:27:22.230Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 245,
+  "fields": {
+    "evaluation": 12,
+    "criterion": 54,
+    "student": 21,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:27:22.232Z",
+    "updated_at": "2026-02-03T05:27:22.234Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 246,
+  "fields": {
+    "evaluation": 12,
+    "criterion": 55,
+    "student": 22,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:27:22.236Z",
+    "updated_at": "2026-02-03T05:27:22.237Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 247,
+  "fields": {
+    "evaluation": 12,
+    "criterion": 55,
+    "student": 23,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:27:22.239Z",
+    "updated_at": "2026-02-03T05:27:22.240Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 248,
+  "fields": {
+    "evaluation": 12,
+    "criterion": 55,
+    "student": 21,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:27:22.242Z",
+    "updated_at": "2026-02-03T05:27:22.243Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 249,
+  "fields": {
+    "evaluation": 12,
+    "criterion": 56,
+    "student": 22,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:27:22.245Z",
+    "updated_at": "2026-02-03T05:27:22.246Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 250,
+  "fields": {
+    "evaluation": 12,
+    "criterion": 56,
+    "student": 23,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:27:22.248Z",
+    "updated_at": "2026-02-03T05:27:22.249Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 251,
+  "fields": {
+    "evaluation": 12,
+    "criterion": 56,
+    "student": 21,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:27:22.250Z",
+    "updated_at": "2026-02-03T05:27:22.251Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 252,
+  "fields": {
+    "evaluation": 13,
+    "criterion": 54,
+    "student": 22,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:28:21.074Z",
+    "updated_at": "2026-02-03T05:28:21.078Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 253,
+  "fields": {
+    "evaluation": 13,
+    "criterion": 54,
+    "student": 23,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:28:21.081Z",
+    "updated_at": "2026-02-03T05:28:21.083Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 254,
+  "fields": {
+    "evaluation": 13,
+    "criterion": 54,
+    "student": 21,
+    "score": "1.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:28:21.085Z",
+    "updated_at": "2026-02-03T05:28:21.087Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 255,
+  "fields": {
+    "evaluation": 13,
+    "criterion": 55,
+    "student": 22,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:28:21.089Z",
+    "updated_at": "2026-02-03T05:28:21.090Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 256,
+  "fields": {
+    "evaluation": 13,
+    "criterion": 55,
+    "student": 23,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:28:21.092Z",
+    "updated_at": "2026-02-03T05:28:21.094Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 257,
+  "fields": {
+    "evaluation": 13,
+    "criterion": 55,
+    "student": 21,
+    "score": "1.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:28:21.096Z",
+    "updated_at": "2026-02-03T05:28:21.097Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 258,
+  "fields": {
+    "evaluation": 13,
+    "criterion": 56,
+    "student": 22,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:28:21.099Z",
+    "updated_at": "2026-02-03T05:28:21.100Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 259,
+  "fields": {
+    "evaluation": 13,
+    "criterion": 56,
+    "student": 23,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:28:21.102Z",
+    "updated_at": "2026-02-03T05:28:21.103Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 260,
+  "fields": {
+    "evaluation": 13,
+    "criterion": 56,
+    "student": 21,
+    "score": "1.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:28:21.105Z",
+    "updated_at": "2026-02-03T05:28:21.106Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 261,
+  "fields": {
+    "evaluation": 14,
+    "criterion": 54,
+    "student": 22,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:31:02.959Z",
+    "updated_at": "2026-02-03T05:31:02.961Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 262,
+  "fields": {
+    "evaluation": 14,
+    "criterion": 54,
+    "student": 23,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:31:02.963Z",
+    "updated_at": "2026-02-03T05:31:02.964Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 263,
+  "fields": {
+    "evaluation": 14,
+    "criterion": 54,
+    "student": 21,
+    "score": "1.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:31:02.966Z",
+    "updated_at": "2026-02-03T05:31:02.967Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 264,
+  "fields": {
+    "evaluation": 14,
+    "criterion": 55,
+    "student": 22,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:31:02.968Z",
+    "updated_at": "2026-02-03T05:31:02.969Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 265,
+  "fields": {
+    "evaluation": 14,
+    "criterion": 55,
+    "student": 23,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:31:02.971Z",
+    "updated_at": "2026-02-03T05:31:02.972Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 266,
+  "fields": {
+    "evaluation": 14,
+    "criterion": 55,
+    "student": 21,
+    "score": "1.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:31:02.973Z",
+    "updated_at": "2026-02-03T05:31:02.975Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 267,
+  "fields": {
+    "evaluation": 14,
+    "criterion": 56,
+    "student": 22,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:31:02.976Z",
+    "updated_at": "2026-02-03T05:31:02.977Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 268,
+  "fields": {
+    "evaluation": 14,
+    "criterion": 56,
+    "student": 23,
+    "score": "2.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:31:02.978Z",
+    "updated_at": "2026-02-03T05:31:02.979Z"
+  }
+},
+{
+  "model": "evaluations.score",
+  "pk": 269,
+  "fields": {
+    "evaluation": 14,
+    "criterion": 56,
+    "student": 21,
+    "score": "1.00",
+    "comments": "",
+    "created_at": "2026-02-03T05:31:02.981Z",
+    "updated_at": "2026-02-03T05:31:02.981Z"
+  }
+}
+]
