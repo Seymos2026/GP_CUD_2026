@@ -110,3 +110,73 @@ class Team(models.Model):
     def members(self):
         """Get all students in this team"""
         return self.students.all()
+
+
+class WeeklyProgress(models.Model):
+    """
+    A supervisor's record of one weekly meeting with a project team.
+
+    Holds the meeting date, one comment covering the team's progress that week,
+    and an attendance row per student (see WeeklyAttendance). Carries no marks -
+    it is a record, separate from the rubric evaluation.
+    """
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE, related_name="weekly_reports"
+    )
+    supervisor = models.ForeignKey(
+        "accounts.Faculty", on_delete=models.SET_NULL, null=True, blank=True,
+        related_name="weekly_reports",
+        help_text="Faculty member who recorded this meeting",
+    )
+    week_number = models.PositiveSmallIntegerField(help_text="Week of the semester, e.g. 1")
+    meeting_date = models.DateField(help_text="Date the meeting took place")
+    comments = models.TextField(
+        blank=True, help_text="Notes on the team's progress and performance this week"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Weekly Progress Sheet"
+        verbose_name_plural = "Weekly Progress Sheets"
+        unique_together = [["project", "week_number"]]
+        ordering = ["project", "-week_number"]
+
+    def __str__(self):
+        return f"{self.project.title} - Week {self.week_number}"
+
+    @property
+    def present_count(self):
+        return self.attendance.filter(status=WeeklyAttendance.Status.PRESENT).count()
+
+    @property
+    def total_count(self):
+        return self.attendance.count()
+
+
+class WeeklyAttendance(models.Model):
+    """One student's attendance at one weekly meeting."""
+
+    class Status(models.TextChoices):
+        PRESENT = "PRESENT", "Present"
+        ABSENT = "ABSENT", "Absent"
+        EXCUSED = "EXCUSED", "Excused"
+
+    report = models.ForeignKey(
+        WeeklyProgress, on_delete=models.CASCADE, related_name="attendance"
+    )
+    student = models.ForeignKey(
+        "accounts.Student", on_delete=models.CASCADE, related_name="weekly_attendance"
+    )
+    status = models.CharField(
+        max_length=10, choices=Status.choices, default=Status.PRESENT
+    )
+
+    class Meta:
+        verbose_name = "Weekly Attendance"
+        verbose_name_plural = "Weekly Attendance"
+        unique_together = [["report", "student"]]
+        ordering = ["student__student_id"]
+
+    def __str__(self):
+        return f"{self.student} - {self.report} ({self.get_status_display()})"

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, Team, FacultyProjectAssignment
+from .models import WeeklyAttendance, WeeklyProgress, Project, Team, FacultyProjectAssignment
 
 
 class FacultyProjectAssignmentInline(admin.TabularInline):
@@ -64,3 +64,19 @@ class TeamAdmin(admin.ModelAdmin):
         """Display number of team members"""
         return obj.students.count()
     member_count.short_description = 'Members'
+
+
+class WeeklyAttendanceInline(admin.TabularInline):
+    model = WeeklyAttendance
+    extra = 0
+    autocomplete_fields = ['student']
+
+
+@admin.register(WeeklyProgress)
+class WeeklyProgressAdmin(admin.ModelAdmin):
+    """Admin view of the supervisors' weekly progress sheets"""
+    list_display = ['project', 'week_number', 'meeting_date', 'supervisor', 'present_count', 'total_count']
+    list_filter = ['meeting_date', 'project']
+    search_fields = ['project__title', 'comments']
+    inlines = [WeeklyAttendanceInline]
+    readonly_fields = ['created_at', 'updated_at']

@@ -2,7 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponse
-from .models import Project, Team
+from django.utils import timezone
+from .models import (
+    FacultyProjectAssignment, Project, Team, WeeklyAttendance, WeeklyProgress,
+)
+from .forms import WeeklyProgressForm
 from accounts.models import Student
 from evaluations.models import Evaluation, Score
 from rubrics.models import Criterion
@@ -270,3 +274,118 @@ def export_all_students_grades(request):
     response['Content-Disposition'] = 'attachment; filename="all_students_grades.xlsx"'
     
     return response
+
+
+# ---------------------------------------------------------------------------
+# Weekly progress sheets
+# ---------------------------------------------------------------------------
+
+def _can_manage_weekly(user, project):
+    """Admins, and the faculty member assigned as this project's supervisor."""
+    if not user.is_authenticated:
+        return False
+    if user.is_admin():
+        return True
+    if not user.is_faculty():
+        return False
+    try:
+        faculty = user.faculty_profile
+    except Exception:
+        return False
+    return FacultyProjectAssignment.objects.filter(
+        project=project,
+        faculty=faculty,
+        role=FacultyProjectAssignment.Role.SUPERVISOR,
+    ).exists()
+
+
+@login_required
+def weekly_progress_list(request, project_id):
+    """Every weekly sheet recorded for one project."""
+    project = get_object_or_404(Project, id=project_id)
+
+    if not _can_manage_weekly(request.user, project):
+        messages.error(request, 'You do not have permission to view progress sheets for this project.')
+        return redirect('projects:project_detail', project_id=project.id)
+
+    reports = (
+        WeeklyProgress.objects
+        .filter(project=project)
+        .prefetch_related('attendance__student__user')
+        .order_by('-week_number')
+    )
+
+    return render(request, 'projects/weekly_progress_list.html', {
+        'project': project,
+        'reports': reports,
+        'team': project.get_team(),
+    })
+
+
+@login_required
+def weekly_progress_form(request, project_id, report_id=None):
+    """Create or edit one weekly sheet, with an attendance row per team member."""
+    project = get_object_or_404(Project, id=project_id)
+
+    if not _can_manage_weekly(request.user, project):
+        messages.error(request, 'You do not have permission to record progress for this project.')
+        return redirect('projects:project_detail', project_id=project.id)
+
+    report = None
+    if report_id is not None:
+        report = get_object_or_404(WeeklyProgress, id=report_id, project=project)
+
+    team = project.get_team()
+    students = list(team.members) if team else []
+
+    if not students:
+        messages.warning(request, 'This project has no team members yet, so there is nobody to mark attendance for.')
+
+    if request.method == 'POST':
+        form = WeeklyProgressForm(request.POST, instance=report, project=project)
+        if form.is_valid():
+            report = form.save(commit=False)
+            report.project = project
+            if report.supervisor is None and request.user.is_faculty():
+                try:
+                    report.supervisor = request.user.faculty_profile
+                except Exception:
+                    pass
+            report.save()
+
+            valid_statuses = {choice[0] for choice in WeeklyAttendance.Status.choices}
+            for student in students:
+                status = request.POST.get(f'attendance_{student.id}', WeeklyAttendance.Status.PRESENT)
+                if status not in valid_statuses:
+                    status = WeeklyAttendance.Status.PRESENT
+                WeeklyAttendance.objects.update_or_create(
+                    report=report, student=student, defaults={'status': status},
+                )
+
+            messages.success(request, f'Week {report.week_number} progress sheet saved.')
+            return redirect('projects:weekly_progress_list', project_id=project.id)
+    else:
+        initial = {}
+        if report is None:
+            last = WeeklyProgress.objects.filter(project=project).order_by('-week_number').first()
+            initial['week_number'] = (last.week_number + 1) if last else 1
+            initial['meeting_date'] = timezone.localdate()
+        form = WeeklyProgressForm(instance=report, initial=initial, project=project)
+
+    # Existing marks, so editing a sheet shows what was recorded before.
+    existing = {}
+    if report is not None:
+        existing = {a.student_id: a.status for a in report.attendance.all()}
+
+    rows = [
+        {'student': s, 'status': existing.get(s.id, WeeklyAttendance.Status.PRESENT)}
+        for s in students
+    ]
+
+    return render(request, 'projects/weekly_progress_form.html', {
+        'project': project,
+        'form': form,
+        'report': report,
+        'rows': rows,
+        'status_choices': WeeklyAttendance.Status.choices,
+    })
