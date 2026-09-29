@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Bulk Import - Project Evaluation System{% endblock %}
+
+{% block content %}
+<h2>Bulk Import</h2>
+<p class="text-muted">
+    Set up faculty, projects and students in one go from a filled Excel template.
+</p>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card mb-3">
+            <div class="card-header"><h5 class="mb-0">Step 1 &mdash; Get the template</h5></div>
+            <div class="card-body">
+                <p>Three sheets: <strong>Faculty</strong>, <strong>Projects</strong>, <strong>Students</strong>.
+                   Fill them in that order.</p>
+                <a href="{% url 'accounts:bulk_import_template' %}" class="btn btn-outline-primary">
+                    Download Template
+                </a>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header"><h5 class="mb-0">Step 2 &mdash; Upload it</h5></div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="file" name="file" accept=".xlsx,.xlsm" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Import</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        {% if result %}
+            {% if result.ok %}
+                <div class="card mb-3 border-success">
+                    <div class="card-header bg-success text-white"><h5 class="mb-0">Import successful</h5></div>
+                    <div class="card-body">
+                        <table class="table table-sm mb-0">
+                            <thead>
+                                <tr><th>Sheet</th><th class="text-end">Created</th><th class="text-end">Updated</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Faculty</td><td class="text-end">{{ result.created.Faculty }}</td><td class="text-end">{{ result.updated.Faculty }}</td></tr>
+                                <tr><td>Projects</td><td class="text-end">{{ result.created.Projects }}</td><td class="text-end">{{ result.updated.Projects }}</td></tr>
+                                <tr><td>Students</td><td class="text-end">{{ result.created.Students }}</td><td class="text-end">{{ result.updated.Students }}</td></tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td>Total</td>
+                                    <td class="text-end">{{ result.total_created }}</td>
+                                    <td class="text-end">{{ result.total_updated }}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card mb-3 border-danger">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">Nothing was imported &mdash; {{ result.errors|length }} problem(s)</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">
+                            The file was rejected as a whole, so your data is unchanged.
+                            Fix everything below and upload again.
+                        </p>
+                        <ul class="mb-0">
+                            {% for error in result.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <div class="card mb-3">
+            <div class="card-header"><h5 class="mb-0">How it works</h5></div>
+            <div class="card-body">
+                <p><strong>Matching.</strong> People are matched on email, projects on title.
+                   Records that already exist are updated; the rest are created.
+                   You can fix a typo and re-import the same file safely.</p>
+
+                <p><strong>Passwords.</strong> New accounts are created with
+                   <code>{{ default_password }}</code> and are required to choose their own
+                   password the first time they sign in. Existing accounts keep the password
+                   they already have &mdash; re-importing never resets anyone.</p>
+
+                <p class="mb-0"><strong>All or nothing.</strong> If any row has a problem,
+                   nothing at all is saved and every problem is listed at once, so you fix
+                   them in a single pass.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="{% url 'accounts:dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+{% endblock %}

@@ -17,6 +17,12 @@ def create_user_profile(sender, instance, created, raw=False, **kwargs):
     if raw:
         return
 
+    # Superusers are created by createsuperuser / the deploy script with the
+    # default STUDENT role, which would otherwise give every admin a bogus
+    # Student profile.
+    if instance.is_superuser:
+        return
+
     if created:
         if instance.role == User.Role.STUDENT:
             # Create Student profile if it doesn't exist

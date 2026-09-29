@@ -285,3 +285,63 @@ def password_change(request):
         'form': form,
         'forced': forced,
     })
+
+
+# ---------------------------------------------------------------------------
+# Bulk import
+# ---------------------------------------------------------------------------
+
+@login_required
+def bulk_import_template(request):
+    """Download the blank Excel template."""
+    if not request.user.is_admin():
+        messages.error(request, 'Only administrators can download the import template.')
+        return redirect('accounts:home')
+
+    from .bulk_import import build_template
+    from django.http import HttpResponse
+
+    buffer = build_template()
+    response = HttpResponse(
+        buffer.read(),
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    )
+    response['Content-Disposition'] = 'attachment; filename="GP_Import_Template.xlsx"'
+    return response
+
+
+@login_required
+def bulk_import(request):
+    """Upload a filled template and apply it."""
+    if not request.user.is_admin():
+        messages.error(request, 'Only administrators can import data.')
+        return redirect('accounts:home')
+
+    from .bulk_import import DEFAULT_PASSWORD, import_workbook
+
+    result = None
+    if request.method == 'POST':
+        uploaded = request.FILES.get('file')
+        if uploaded is None:
+            messages.error(request, 'Please choose a file to upload.')
+        elif not uploaded.name.lower().endswith(('.xlsx', '.xlsm')):
+            messages.error(request, 'Please upload an Excel file (.xlsx).')
+        else:
+            result = import_workbook(uploaded, created_by=request.user)
+            if result.ok:
+                messages.success(
+                    request,
+                    f'Import complete: {result.total_created} record(s) created, '
+                    f'{result.total_updated} updated.',
+                )
+            else:
+                messages.error(
+                    request,
+                    f'Nothing was imported. {len(result.errors)} problem(s) found - '
+                    f'fix them in the file and upload it again.',
+                )
+
+    return render(request, 'accounts/bulk_import.html', {
+        'result': result,
+        'default_password': DEFAULT_PASSWORD,
+    })
