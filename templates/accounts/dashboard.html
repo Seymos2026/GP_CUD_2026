@@ -18,9 +18,9 @@
     <div class="col-md-3">
         <div class="card text-center">
             <div class="card-body">
-                <h3 class="text-success">{{ total_teams }}</h3>
-                <p class="card-text">Teams</p>
-                <a href="/admin/projects/team/" class="btn btn-sm btn-success">Manage</a>
+                <h3 class="text-success">{{ assigned_students }}</h3>
+                <p class="card-text">Assigned Students</p>
+                <a href="/admin/accounts/student/" class="btn btn-sm btn-success">Manage</a>
             </div>
         </div>
     </div>
@@ -85,7 +85,7 @@
                         <ul class="list-unstyled">
                             <li><a href="/admin/projects/project/add/">➕ Create New Project</a></li>
                             <li><a href="{% url 'projects:project_list' %}">📋 View All Projects</a></li>
-                            <li><a href="/admin/projects/team/add/">👥 Create New Team</a></li>
+                            <li><a href="/admin/accounts/student/">👥 Assign Students to Projects</a></li>
                         </ul>
                     </div>
                     <div class="col-md-6">
@@ -242,7 +242,7 @@
         <li><strong>Import a Rubric:</strong> <a href="{% url 'rubrics:rubric_import' %}">Import Rubric from Excel</a></li>
         <li><strong>Create Users:</strong> Go to <a href="/admin/accounts/user/add/">Admin Panel → Users</a> to create student and faculty accounts</li>
         <li><strong>Create a Project:</strong> Go to <a href="/admin/projects/project/add/">Admin Panel → Projects</a> to create your first project</li>
-        <li><strong>Create a Team:</strong> Create a team and assign students to it</li>
+        <li><strong>Assign Students:</strong> Open a student and set their project</li>
     </ol>
 </div>
 {% endif %}

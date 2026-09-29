@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import WeeklyAttendance, WeeklyProgress, Project, Team, FacultyProjectAssignment
+from accounts.models import Student
+from .models import (
+    FacultyProjectAssignment, Project, WeeklyAttendance, WeeklyProgress,
+)
 
 
 class FacultyProjectAssignmentInline(admin.TabularInline):
@@ -49,21 +52,6 @@ class ProjectAdmin(admin.ModelAdmin):
         """Display count of judges"""
         return len(obj.judges)
     get_judges_count.short_description = 'Judges'
-
-
-@admin.register(Team)
-class TeamAdmin(admin.ModelAdmin):
-    """Admin interface for Team model"""
-    list_display = ['team_name', 'project', 'member_count', 'created_at']
-    list_filter = ['created_at']
-    search_fields = ['team_name', 'project__title']
-    autocomplete_fields = ['project']
-    readonly_fields = ['created_at', 'updated_at']
-    
-    def member_count(self, obj):
-        """Display number of team members"""
-        return obj.students.count()
-    member_count.short_description = 'Members'
 
 
 class WeeklyAttendanceInline(admin.TabularInline):

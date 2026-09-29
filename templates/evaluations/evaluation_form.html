@@ -15,7 +15,7 @@
 
 {% if not students %}
 <div class="alert alert-warning">
-    <strong>No students assigned to this project's team.</strong> Please assign students to the team before evaluating.
+    <strong>No students assigned to this project.</strong> Please assign students to the project before evaluating.
 </div>
 {% else %}
 <form method="post">
@@ -121,7 +121,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="general_comments" class="form-label">General Comments (for the entire project/team) <span class="text-danger">*</span></label>
+        <label for="general_comments" class="form-label">General Comments (for the entire project) <span class="text-danger">*</span></label>
         <textarea class="form-control" id="general_comments" name="general_comments" rows="4" required>{{ evaluation.comments|default:'' }}</textarea>
         <small class="form-text text-muted">This field is required for submission.</small>
     </div>

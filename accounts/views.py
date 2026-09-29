@@ -22,7 +22,7 @@ def home(request):
 @login_required
 def dashboard(request):
     """Admin dashboard with statistics"""
-    from projects.models import Project, Team, FacultyProjectAssignment
+    from projects.models import Project, FacultyProjectAssignment
     from accounts.models import Student, Faculty
     from rubrics.models import Rubric
     from evaluations.models import Evaluation
@@ -107,7 +107,7 @@ def dashboard(request):
         
         context = {
             'total_projects': Project.objects.count(),
-            'total_teams': Team.objects.count(),
+            'assigned_students': Student.objects.filter(project__isnull=False).count(),
             'total_students': Student.objects.count(),
             'total_judges': Faculty.objects.count(),
             'total_rubrics': Rubric.objects.count(),

@@ -81,35 +81,14 @@ class Project(models.Model):
         assignments = self.faculty_assignments.filter(role=FacultyProjectAssignment.Role.JUDGE)
         return [assignment.faculty.user for assignment in assignments]
     
-    def get_team(self):
-        """Safely get the team associated with this project, returns None if no team exists"""
-        try:
-            return self.team
-        except Team.DoesNotExist:
-            return None
-        except AttributeError:
-            return None
-
-
-class Team(models.Model):
-    """Team entity - multiple students per team"""
-    project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name="team")
-    team_name = models.CharField(max_length=200, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    class Meta:
-        verbose_name = "Team"
-        verbose_name_plural = "Teams"
-        ordering = ["team_name", "-created_at"]
-    
-    def __str__(self):
-        return self.team_name or f"Team for {self.project.title}"
-    
     @property
     def members(self):
-        """Get all students in this team"""
+        """Students assigned to this project."""
         return self.students.all()
+
+    @property
+    def member_count(self):
+        return self.students.count()
 
 
 class WeeklyProgress(models.Model):

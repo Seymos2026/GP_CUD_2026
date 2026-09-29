@@ -171,13 +171,12 @@ def get_project_evaluation_summary(project):
             })
     
     # Calculate per-student averages across all judges
-    # Use getattr to safely access team property
-    team = getattr(project, 'team', None)
+    students = project.members
     student_averages = []
-    if team:
+    if students:
         rubric = project.rubric
         if rubric:
-            for student in team.students.all():
+            for student in students:
                 student_data = {
                     'student': student,
                     'criterion_scores': [],

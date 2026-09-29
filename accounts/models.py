@@ -54,7 +54,7 @@ class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="student_profile")
     student_id = models.CharField(max_length=50, unique=True, blank=True, null=True)
     major = models.CharField(max_length=200, blank=True, null=True, help_text="Student's major field of study")
-    team = models.ForeignKey("projects.Team", on_delete=models.SET_NULL, null=True, blank=True, related_name="students")
+    project = models.ForeignKey("projects.Project", on_delete=models.SET_NULL, null=True, blank=True, related_name="students", help_text="Graduation project this student is assigned to")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.utils import timezone
 from .models import (
-    FacultyProjectAssignment, Project, Team, WeeklyAttendance, WeeklyProgress,
+    FacultyProjectAssignment, Project, WeeklyAttendance, WeeklyProgress,
 )
 from .forms import WeeklyProgressForm
 from accounts.models import Student
@@ -31,12 +31,11 @@ def project_list(request):
         except:
             projects = Project.objects.none()
     elif user.is_student_user():
-        # Students see projects for their team
+        # Students see the project they are assigned to
         try:
             student = user.student_profile
-            team = student.team
-            if team:
-                projects = Project.objects.filter(team=team)
+            if student.project:
+                projects = Project.objects.filter(pk=student.project_id)
             else:
                 projects = Project.objects.none()
         except:
@@ -74,7 +73,7 @@ def project_detail(request, project_id):
         if user.is_student_user():
             try:
                 student = user.student_profile
-                if not student.team or student.team.project != project:
+                if student.project_id != project.id:
                     messages.error(request, 'You do not have permission to view this project.')
                     return redirect('projects:project_list')
             except:
@@ -109,20 +108,11 @@ def project_detail(request, project_id):
         except:
             pass
     
-    # Safely get team to avoid RelatedObjectDoesNotExist
-    team = None
-    try:
-        team = project.team
-    except Team.DoesNotExist:
-        team = None
-    except AttributeError:
-        team = None
-    
     return render(request, 'projects/project_detail.html', {
         'project': project,
         'evaluation_summary': evaluation_summary,
         'judge_evaluation': judge_evaluation,
-        'team': team,
+        'members': project.members,
         'is_judge': is_judge,
         'is_supervisor': is_supervisor
     })
@@ -138,8 +128,8 @@ def export_all_students_grades(request):
         messages.error(request, 'You do not have permission to export student grades.')
         return redirect('projects:project_list')
     
-    # Get all projects with teams and students
-    projects = Project.objects.filter(team__isnull=False).distinct()
+    # Get all projects that have students assigned
+    projects = Project.objects.filter(students__isnull=False).distinct()
     
     # Collect all unique criteria across all projects, grouped by rubric
     all_criteria = Criterion.objects.filter(
@@ -184,8 +174,8 @@ def export_all_students_grades(request):
     # Build data rows
     rows = []
     for project in projects:
-        team = getattr(project, 'team', None)
-        if not team:
+        students = project.members
+        if not students:
             continue
         
         rubric = project.rubric
@@ -198,7 +188,7 @@ def export_all_students_grades(request):
             status=Evaluation.Status.SUBMITTED
         )
         
-        for student in team.students.all():
+        for student in students:
             student_name = student.user.get_full_name() or student.user.username
             student_id = student.student_id or 'N/A'
             student_major = student.major or 'N/A'
@@ -318,13 +308,12 @@ def weekly_progress_list(request, project_id):
     return render(request, 'projects/weekly_progress_list.html', {
         'project': project,
         'reports': reports,
-        'team': project.get_team(),
     })
 
 
 @login_required
 def weekly_progress_form(request, project_id, report_id=None):
-    """Create or edit one weekly sheet, with an attendance row per team member."""
+    """Create or edit one weekly sheet, with an attendance row per assigned student."""
     project = get_object_or_404(Project, id=project_id)
 
     if not _can_manage_weekly(request.user, project):
@@ -335,11 +324,10 @@ def weekly_progress_form(request, project_id, report_id=None):
     if report_id is not None:
         report = get_object_or_404(WeeklyProgress, id=report_id, project=project)
 
-    team = project.get_team()
-    students = list(team.members) if team else []
+    students = list(project.members)
 
     if not students:
-        messages.warning(request, 'This project has no team members yet, so there is nobody to mark attendance for.')
+        messages.warning(request, 'No students are assigned to this project yet, so there is nobody to mark attendance for.')
 
     if request.method == 'POST':
         form = WeeklyProgressForm(request.POST, instance=report, project=project)

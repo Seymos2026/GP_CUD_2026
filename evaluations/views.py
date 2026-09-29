@@ -77,11 +77,8 @@ def evaluation_create(request, project_id):
         defaults={'status': Evaluation.Status.DRAFT}
     )
     
-    # Get team members
-    team = getattr(project, 'team', None)
-    students = []
-    if team:
-        students = team.students.all()
+    # Students assigned to this project
+    students = project.members
     
     if request.method == 'POST':
         action = request.POST.get('action', 'save')
@@ -270,9 +267,8 @@ def evaluation_detail(request, evaluation_id):
             messages.error(request, 'You do not have permission to view this evaluation.')
             return redirect('evaluations:evaluation_list')
     
-    # Get team and students
-    team = getattr(evaluation.project, 'team', None)
-    students = team.students.all() if team else []
+    # Students assigned to this project
+    students = evaluation.project.members
     
     # Organize scores by student
     student_scores_data = []

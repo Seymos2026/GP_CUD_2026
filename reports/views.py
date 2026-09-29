@@ -23,7 +23,7 @@ def project_report(request, project_id):
         if user.is_student_user():
             try:
                 student = user.student_profile
-                if not student.team or student.team.project != project:
+                if student.project_id != project.id:
                     return HttpResponse("Unauthorized", status=403)
             except:
                 return HttpResponse("Unauthorized", status=403)

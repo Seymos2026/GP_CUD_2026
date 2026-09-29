@@ -35,14 +35,14 @@ class FacultyAdmin(admin.ModelAdmin):
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     """Admin interface for Student model"""
-    list_display = ['user', 'student_id', 'major', 'team', 'created_at']
-    list_filter = ['created_at', 'team', 'major']
-    search_fields = ['user__username', 'user__email', 'user__first_name', 'user__last_name', 'student_id', 'major']
-    autocomplete_fields = ['user', 'team']
+    list_display = ['user', 'student_id', 'major', 'project', 'created_at']
+    list_filter = ['created_at', 'project', 'major']
+    search_fields = ['user__username', 'user__email', 'user__first_name', 'user__last_name', 'student_id', 'major', 'project__title']
+    autocomplete_fields = ['user', 'project']
     readonly_fields = ['created_at', 'updated_at']
     fieldsets = (
         ('Student Information', {
-            'fields': ('user', 'student_id', 'major', 'team')
+            'fields': ('user', 'student_id', 'major', 'project')
         }),
         ('Timestamps', {
             'fields': ('created_at', 'updated_at'),

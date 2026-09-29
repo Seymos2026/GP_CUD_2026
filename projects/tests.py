@@ -5,7 +5,7 @@ from django.test import TestCase
 
 from accounts.models import Faculty, Student
 from projects.models import (
-    FacultyProjectAssignment, Project, Team, WeeklyAttendance, WeeklyProgress,
+    FacultyProjectAssignment, Project, WeeklyAttendance, WeeklyProgress,
 )
 
 User = get_user_model()
@@ -17,7 +17,6 @@ class WeeklyProgressTests(TestCase):
 
     def setUp(self):
         self.project = Project.objects.create(title='Smart Campus')
-        self.team = Team.objects.create(project=self.project, team_name='Team A')
 
         self.students = []
         for i in range(3):
@@ -27,7 +26,7 @@ class WeeklyProgressTests(TestCase):
             )
             User.objects.filter(pk=user.pk).update(must_change_password=False)
             student = user.student_profile
-            student.team = self.team
+            student.project = self.project
             student.save()
             self.students.append(student)
 
@@ -89,7 +88,7 @@ class WeeklyProgressTests(TestCase):
 
     # --- recording ---------------------------------------------------------
 
-    def test_form_lists_every_team_member(self):
+    def test_form_lists_every_assigned_student(self):
         self.login_supervisor()
         response = self.client.get(self.create_url)
         self.assertEqual(response.status_code, 200)
@@ -169,3 +168,56 @@ class WeeklyProgressTests(TestCase):
         self.client.login(username='judge@cud.ac.ae', password=PASSWORD)
         response = self.client.get(f'/projects/{self.project.id}/')
         self.assertNotContains(response, 'Weekly Progress Sheet')
+
+
+class ProjectMembershipTests(TestCase):
+    """Students attach straight to a Project now - no Team in between."""
+
+    def setUp(self):
+        self.project = Project.objects.create(title='Smart Campus')
+        self.other = Project.objects.create(title='Unrelated')
+
+    def _student(self, name, project):
+        user = User.objects.create_user(
+            username=name, email=f'{name}@cud.ac.ae', password=PASSWORD,
+            role=User.Role.STUDENT,
+        )
+        User.objects.filter(pk=user.pk).update(must_change_password=False)
+        student = user.student_profile
+        student.project = project
+        student.save()
+        return student
+
+    def test_members_returns_only_this_projects_students(self):
+        a = self._student('a', self.project)
+        b = self._student('b', self.project)
+        self._student('c', self.other)
+
+        self.assertEqual(set(self.project.members), {a, b})
+        self.assertEqual(self.project.member_count, 2)
+
+    def test_student_sees_only_their_own_project(self):
+        self._student('a', self.project)
+        self.client.login(username='a@cud.ac.ae', password=PASSWORD)
+
+        response = self.client.get('/projects/')
+        self.assertContains(response, 'Smart Campus')
+        self.assertNotContains(response, 'Unrelated')
+
+    def test_student_cannot_open_another_project(self):
+        self._student('a', self.project)
+        self.client.login(username='a@cud.ac.ae', password=PASSWORD)
+
+        response = self.client.get(f'/projects/{self.other.id}/')
+        self.assertRedirects(response, '/projects/', fetch_redirect_response=False)
+
+    def test_unassigned_student_sees_nothing(self):
+        user = User.objects.create_user(
+            username='lost', email='lost@cud.ac.ae', password=PASSWORD,
+            role=User.Role.STUDENT,
+        )
+        User.objects.filter(pk=user.pk).update(must_change_password=False)
+        self.client.login(username='lost@cud.ac.ae', password=PASSWORD)
+
+        response = self.client.get('/projects/')
+        self.assertNotContains(response, 'Smart Campus')
