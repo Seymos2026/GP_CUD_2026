@@ -1,7 +1,9 @@
 from datetime import date
+from io import BytesIO
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from openpyxl import load_workbook
 
 from accounts.models import Faculty, Student
 from projects.models import (
@@ -221,3 +223,135 @@ class ProjectMembershipTests(TestCase):
 
         response = self.client.get('/projects/')
         self.assertNotContains(response, 'Smart Campus')
+
+
+class WeeklyProgressExportTests(TestCase):
+    """The Excel export of a project's weekly sheets."""
+
+    def setUp(self):
+        self.project = Project.objects.create(title='Smart Campus')
+
+        self.students = []
+        for i in range(3):
+            user = User.objects.create_user(
+                username=f'stu{i}', email=f'stu{i}@cud.ac.ae',
+                password=PASSWORD, role=User.Role.STUDENT,
+                first_name=f'First{i}', last_name=f'Last{i}',
+            )
+            User.objects.filter(pk=user.pk).update(must_change_password=False)
+            student = user.student_profile
+            student.project = self.project
+            student.student_id = f'2022000{i}'
+            student.save()
+            self.students.append(student)
+
+        sup_user = User.objects.create_user(
+            username='sup', email='sup@cud.ac.ae', password=PASSWORD,
+            role=User.Role.FACULTY, first_name='Mo', last_name='Injadat',
+        )
+        User.objects.filter(pk=sup_user.pk).update(must_change_password=False)
+        self.supervisor = sup_user.faculty_profile
+        FacultyProjectAssignment.objects.create(
+            project=self.project, faculty=self.supervisor,
+            role=FacultyProjectAssignment.Role.SUPERVISOR,
+        )
+
+        # Two weeks recorded, with a different attendance pattern each week.
+        for week, (meeting_date, statuses, note) in enumerate([
+            (date(2026, 9, 8), ['PRESENT', 'PRESENT', 'ABSENT'], 'Kick-off. Scope agreed.'),
+            (date(2026, 9, 15), ['PRESENT', 'EXCUSED', 'PRESENT'], 'API sketched out.'),
+        ], start=1):
+            report = WeeklyProgress.objects.create(
+                project=self.project, supervisor=self.supervisor,
+                week_number=week, meeting_date=meeting_date, comments=note,
+            )
+            for student, status in zip(self.students, statuses):
+                WeeklyAttendance.objects.create(report=report, student=student, status=status)
+
+        self.url = f'/projects/{self.project.id}/weekly/export/'
+
+    def export(self):
+        self.client.login(username='sup@cud.ac.ae', password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        return response
+
+    def test_downloads_as_an_xlsx_attachment(self):
+        response = self.export()
+        self.assertIn('spreadsheetml.sheet', response['Content-Type'])
+        self.assertIn('attachment;', response['Content-Disposition'])
+        self.assertIn('Smart_Campus_weekly_progress.xlsx', response['Content-Disposition'])
+
+    def test_attendance_sheet_is_a_student_by_week_matrix(self):
+        wb = load_workbook(BytesIO(self.export().content))
+        self.assertEqual(wb.sheetnames, ['Attendance', 'Meeting Notes'])
+
+        ws = wb['Attendance']
+        headers = [c.value for c in ws[4]]
+        self.assertEqual(headers, ['Student', 'Student ID', 'Week 1', 'Week 2', 'Present', 'Attendance %'])
+
+        # Dates sit under the week headers.
+        self.assertEqual(ws.cell(row=5, column=3).value.date(), date(2026, 9, 8))
+        self.assertEqual(ws.cell(row=5, column=4).value.date(), date(2026, 9, 15))
+
+        # Row 6 is the first student: present both weeks.
+        self.assertEqual(ws.cell(row=6, column=1).value, 'First0 Last0')
+        self.assertEqual(ws.cell(row=6, column=2).value, '20220000')
+        self.assertEqual(ws.cell(row=6, column=3).value, 'Present')
+        self.assertEqual(ws.cell(row=6, column=4).value, 'Present')
+
+        # Third student: absent then present.
+        self.assertEqual(ws.cell(row=8, column=3).value, 'Absent')
+        self.assertEqual(ws.cell(row=8, column=4).value, 'Present')
+        # Second student's excused week is recorded as such, not as absent.
+        self.assertEqual(ws.cell(row=7, column=4).value, 'Excused')
+
+    def test_totals_are_formulas_so_the_sheet_still_adds_up_if_edited(self):
+        ws = load_workbook(BytesIO(self.export().content))['Attendance']
+
+        present = ws.cell(row=6, column=5).value
+        self.assertEqual(present, '=COUNTIF(C6:D6,"Present")')
+
+        pct = ws.cell(row=6, column=6).value
+        self.assertIn('COUNTIF(C6:D6,"Present")/COUNTA(C6:D6)', pct)
+        self.assertEqual(ws.cell(row=6, column=6).number_format, '0%')
+
+    def test_notes_sheet_carries_every_week(self):
+        ws = load_workbook(BytesIO(self.export().content))['Meeting Notes']
+
+        headers = [c.value for c in ws[4]]
+        self.assertEqual(headers, ['Week', 'Date', 'Present', 'Total', 'Recorded By',
+                                   'Progress and performance notes'])
+
+        self.assertEqual(ws.cell(row=5, column=1).value, 1)
+        self.assertEqual(ws.cell(row=5, column=3).value, 2)   # present count, week 1
+        self.assertEqual(ws.cell(row=5, column=4).value, 3)   # total
+        self.assertEqual(ws.cell(row=5, column=5).value, 'Mo Injadat')
+        self.assertEqual(ws.cell(row=5, column=6).value, 'Kick-off. Scope agreed.')
+
+        self.assertEqual(ws.cell(row=6, column=1).value, 2)
+        self.assertEqual(ws.cell(row=6, column=3).value, 2)   # present + excused counted correctly
+        self.assertEqual(ws.cell(row=6, column=6).value, 'API sketched out.')
+
+    def test_judge_cannot_export(self):
+        user = User.objects.create_user(
+            username='judge', email='judge@cud.ac.ae', password=PASSWORD,
+            role=User.Role.FACULTY,
+        )
+        User.objects.filter(pk=user.pk).update(must_change_password=False)
+        FacultyProjectAssignment.objects.create(
+            project=self.project, faculty=user.faculty_profile,
+            role=FacultyProjectAssignment.Role.JUDGE,
+        )
+        self.client.login(username='judge@cud.ac.ae', password=PASSWORD)
+
+        response = self.client.get(self.url)
+        self.assertRedirects(response, f'/projects/{self.project.id}/',
+                             fetch_redirect_response=False)
+
+    def test_export_with_no_weeks_recorded_still_produces_a_file(self):
+        WeeklyProgress.objects.all().delete()
+        wb = load_workbook(BytesIO(self.export().content))
+
+        self.assertEqual(wb['Attendance'].cell(row=4, column=3).value, 'Present')
+        self.assertIn('No weekly sheets', str(wb['Meeting Notes'].cell(row=5, column=1).value))

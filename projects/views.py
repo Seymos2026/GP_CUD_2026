@@ -377,3 +377,172 @@ def weekly_progress_form(request, project_id, report_id=None):
         'rows': rows,
         'status_choices': WeeklyAttendance.Status.choices,
     })
+
+
+@login_required
+def weekly_progress_export(request, project_id):
+    """
+    Export every weekly sheet for one project as an Excel workbook.
+
+    Sheet 1 is an attendance matrix (students down, weeks across) with the
+    tallies as live formulas so it still adds up if the file is edited.
+    Sheet 2 carries the meeting notes in full.
+    """
+    from openpyxl import Workbook
+    from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+    from openpyxl.utils import get_column_letter
+
+    project = get_object_or_404(Project, id=project_id)
+
+    if not _can_manage_weekly(request.user, project):
+        messages.error(request, 'You do not have permission to export progress sheets for this project.')
+        return redirect('projects:project_detail', project_id=project.id)
+
+    reports = list(
+        WeeklyProgress.objects
+        .filter(project=project)
+        .prefetch_related('attendance__student__user', 'supervisor__user')
+        .order_by('week_number')
+    )
+    students = list(project.members)
+
+    ARIAL = 'Arial'
+    title_font = Font(name=ARIAL, bold=True, size=14)
+    head_font = Font(name=ARIAL, bold=True, color='FFFFFF')
+    head_fill = PatternFill('solid', fgColor='4472C4')
+    body_font = Font(name=ARIAL)
+    muted = Font(name=ARIAL, size=9, color='808080')
+    thin = Side(style='thin', color='D0D0D0')
+    box = Border(left=thin, right=thin, top=thin, bottom=thin)
+    centre = Alignment(horizontal='center', vertical='center')
+
+    wb = Workbook()
+
+    # ---------------- Sheet 1: attendance matrix ----------------
+    ws = wb.active
+    ws.title = 'Attendance'
+
+    ws['A1'] = project.title
+    ws['A1'].font = title_font
+    ws['A2'] = f"Weekly attendance  |  exported {timezone.localdate():%d %b %Y}"
+    ws['A2'].font = muted
+
+    HEAD_ROW, DATE_ROW, FIRST_DATA_ROW = 4, 5, 6
+
+    headers = ['Student', 'Student ID'] + [f'Week {r.week_number}' for r in reports] + ['Present', 'Attendance %']
+    for col, label in enumerate(headers, start=1):
+        cell = ws.cell(row=HEAD_ROW, column=col, value=label)
+        cell.font = head_font
+        cell.fill = head_fill
+        cell.alignment = centre
+        cell.border = box
+
+    for i, report in enumerate(reports):
+        cell = ws.cell(row=DATE_ROW, column=3 + i, value=report.meeting_date)
+        cell.font = muted
+        cell.alignment = centre
+        cell.number_format = 'DD MMM'
+        cell.border = box
+    for col in (1, 2, 3 + len(reports), 4 + len(reports)):
+        ws.cell(row=DATE_ROW, column=col).border = box
+
+    status_by_pair = {
+        (a.report_id, a.student_id): a.get_status_display()
+        for report in reports for a in report.attendance.all()
+    }
+
+    first_week_col = 3
+    last_week_col = 2 + len(reports)
+
+    for row_offset, student in enumerate(students):
+        row = FIRST_DATA_ROW + row_offset
+        name = student.user.get_full_name() or student.user.username
+        ws.cell(row=row, column=1, value=name).font = body_font
+        ws.cell(row=row, column=2, value=student.student_id or '').font = body_font
+
+        for i, report in enumerate(reports):
+            value = status_by_pair.get((report.id, student.id), '')
+            cell = ws.cell(row=row, column=first_week_col + i, value=value)
+            cell.font = body_font
+            cell.alignment = centre
+            cell.border = box
+
+        present_col = last_week_col + 1
+        pct_col = last_week_col + 2
+
+        if reports:
+            span = f"{get_column_letter(first_week_col)}{row}:{get_column_letter(last_week_col)}{row}"
+            present = ws.cell(row=row, column=present_col, value=f'=COUNTIF({span},"Present")')
+            pct = ws.cell(row=row, column=pct_col,
+                          value=f'=IFERROR(COUNTIF({span},"Present")/COUNTA({span}),"")')
+        else:
+            present = ws.cell(row=row, column=present_col, value=0)
+            pct = ws.cell(row=row, column=pct_col, value='')
+
+        present.font = body_font
+        present.alignment = centre
+        present.border = box
+        pct.font = body_font
+        pct.alignment = centre
+        pct.number_format = '0%'
+        pct.border = box
+
+    ws.column_dimensions['A'].width = 32
+    ws.column_dimensions['B'].width = 16
+    for col in range(first_week_col, last_week_col + 3):
+        ws.column_dimensions[get_column_letter(col)].width = 14
+    ws.freeze_panes = ws.cell(row=FIRST_DATA_ROW, column=3)
+
+    if not students:
+        ws.cell(row=FIRST_DATA_ROW, column=1,
+                value='No students are assigned to this project.').font = muted
+
+    # ---------------- Sheet 2: meeting notes ----------------
+    notes = wb.create_sheet('Meeting Notes')
+    notes['A1'] = project.title
+    notes['A1'].font = title_font
+    notes['A2'] = 'Supervisor notes, one row per weekly meeting'
+    notes['A2'].font = muted
+
+    note_headers = ['Week', 'Date', 'Present', 'Total', 'Recorded By', 'Progress and performance notes']
+    for col, label in enumerate(note_headers, start=1):
+        cell = notes.cell(row=4, column=col, value=label)
+        cell.font = head_font
+        cell.fill = head_fill
+        cell.alignment = centre
+        cell.border = box
+
+    for i, report in enumerate(reports):
+        row = 5 + i
+        recorded_by = ''
+        if report.supervisor:
+            recorded_by = report.supervisor.user.get_full_name() or report.supervisor.user.username
+
+        values = [report.week_number, report.meeting_date, report.present_count,
+                  report.total_count, recorded_by, report.comments or '']
+        for col, value in enumerate(values, start=1):
+            cell = notes.cell(row=row, column=col, value=value)
+            cell.font = body_font
+            cell.border = box
+            cell.alignment = Alignment(vertical='top', wrap_text=(col == 6))
+            if col == 2:
+                cell.number_format = 'DD MMM YYYY'
+
+    for col, width in zip('ABCDEF', [8, 14, 10, 8, 26, 90]):
+        notes.column_dimensions[col].width = width
+    notes.freeze_panes = 'A5'
+
+    if not reports:
+        notes.cell(row=5, column=1, value='No weekly sheets have been recorded yet.').font = muted
+
+    buffer = BytesIO()
+    wb.save(buffer)
+    buffer.seek(0)
+
+    safe_title = ''.join(c if c.isalnum() or c in '-_' else '_' for c in project.title)[:60]
+    response = HttpResponse(
+        buffer.read(),
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    )
+    response['Content-Disposition'] = f'attachment; filename="{safe_title}_weekly_progress.xlsx"'
+    return response
